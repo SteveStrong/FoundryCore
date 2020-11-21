@@ -9,7 +9,7 @@ namespace FoundryCore
         {
             var prop1 = new FoProperty<string>
             {
-                Value = "Steve Strong"
+                Value = "Stephen R. Strong"
             };
             var prop2 = new FoProperty<double>(100);
 
