@@ -37,6 +37,14 @@ namespace FoundryCore
             Properties.Add(pinfo.GetValue(obj).ToString(), obj);
             return this;
         }
+
+        public FoComponent AddList(object[] value)
+        {
+            foreach(var obj in value) {
+                this.Add(obj);
+            }
+            return this;
+        }
     }
 
 

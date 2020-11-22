@@ -20,7 +20,7 @@ namespace FoundryCore
             prop2c.toJson();
 
             string[] stuff = { "one", "two", "three", "5" };
-            var prop3 = new FoCollection<string>("count",stuff);
+            var prop3 = new FoCollection<string>("count", stuff);
 
             double[] data = { 1, 2, 3, 4, 5, 6, 7 };
             var prop4 = new FoCollection<double>("number", data);
@@ -35,15 +35,14 @@ namespace FoundryCore
             // Console.WriteLine($" to string {prop4}");
             // Console.WriteLine($" to string {prop5}");
 
-            comp1.Add(prop1);
-            comp1.Add(prop2a);
-            comp1.Add(prop2b);
-            comp1.Add(prop2c);
+            IFoProperty[] props = { prop1, prop2a, prop2b, prop2c };
+            comp1.AddList(props);
+
             Console.WriteLine($" to string {comp1}");
 
             comp1.toJson();
 
-            
+
             //prop4.asJson(prop4);
             //prop5.asJson(prop5);
         }
