@@ -14,10 +14,10 @@ namespace FoundryCore
         public T Value { get; set; }
         public string Name { get; set; }
     
-        public FoProperty(T value = default)
+        public FoProperty(string name, T value = default)
         {
-            this.Name = "mike";
-            this.Value = value;
+            Name = name;
+            Value = value;
         }
 
         public override string AsString()
@@ -30,7 +30,7 @@ namespace FoundryCore
     {
         public new List<T> Value { get; set; }
 
-        public FoCollection(T[] value = default) 
+        public FoCollection(string name, T[] value = default) : base(name)
         {
             Value = value == default ? new List<T>() : new List<T>(value);
         }

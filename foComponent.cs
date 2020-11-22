@@ -21,8 +21,11 @@ namespace FoundryCore
         //https://www.thecodebuzz.com/system-text-json-create-dictionary-converter-json-serialization/
         public Dictionary<string, object> Properties = new Dictionary<string, object>();
 
-  
-        public FoComponent Add(string key, IFoProperty obj) {
+        public FoComponent(string name)
+        {
+            this.Name = name;
+        }
+        public FoComponent Add(string key, object obj) {
             Properties.Add(key, obj);
             return this;
         }

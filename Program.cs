@@ -7,27 +7,27 @@ namespace FoundryCore
     {
         static void Main(string[] args)
         {
-            var prop1 = new FoProperty<string>("Stephen R. Strong");
+            var prop1 = new FoProperty<string>("xxx", "Stephen R. Strong");
             prop1.asJson(prop1);
 
-            var prop2 = new FoProperty<double>(100);
-            //prop2.asJson(prop2);
+            var prop2 = new FoProperty<object>("cost", 100);
+            prop2.asJson(prop2);
 
             string[] stuff = { "one", "two", "three", "5" };
-            var prop3 = new FoCollection<string>(stuff);
+            var prop3 = new FoCollection<string>("count",stuff);
 
             double[] data = { 1, 2, 3, 4, 5, 6, 7 };
-            var prop4 = new FoCollection<double>(data);
+            var prop4 = new FoCollection<double>("number", data);
+            var prop5 = new FoCollection<double>("number");
 
-            var comp1 = new FoComponent();
-            comp1.Name = "my Comp";
+            var comp1 = new FoComponent("my Comp");
             comp1.propx = prop1;
 
             Console.WriteLine($" to string {prop1}");
             Console.WriteLine($" to string {prop2}");
             Console.WriteLine($" to string {prop3}");
             Console.WriteLine($" to string {prop4}");
-
+            Console.WriteLine($" to string {prop5}");
 
             comp1.Add("prop1", prop1);
             //comp1.Add("prop2", prop2);
@@ -36,7 +36,8 @@ namespace FoundryCore
             comp1.asJson(comp1);
 
             
-            //prop4.asJson(prop4);
+            prop4.asJson(prop4);
+            prop5.asJson(prop5);
         }
     }
 }
