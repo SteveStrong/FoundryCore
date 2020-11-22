@@ -9,6 +9,11 @@ namespace FoundryCore
         {
             return String.Empty;
         }
+
+        public static T GetValue<T>(this String value)
+        {
+            return (T)Convert.ChangeType(value, typeof(T));
+        }
         public static T Blank<T>(this T me)
         {
             var tot = typeof(T);
