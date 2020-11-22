@@ -15,17 +15,24 @@ namespace FoundryCore
     class FoComponent : FoBase, IFoComponent
     {
         public FoPropertyManager Properties { get; set; }
+        public FoComponentManager Subcomponents { get; set; }
 
         public object Extra { get => new { Amount = 108, Message = "Hello" };  }
 
         public FoComponent(string name)
         {
-            Properties = new FoPropertyManager(this);
             this.Name = name;
+            Properties = new FoPropertyManager(this);
+            Subcomponents = new FoComponentManager(this);
         }
         public FoComponent(string name, IFoProperty[] props): this(name)
         {
             Properties.AddList(props);
+        }
+
+        public FoComponent(string name, IFoComponent[] comps): this(name)
+        {
+            Subcomponents.AddList(comps);
         }
         
 

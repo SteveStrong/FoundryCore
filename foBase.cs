@@ -15,6 +15,13 @@ namespace FoundryCore
         public bool HasParent() {
             return Parent != null;
         }
+        public bool SetParent(FoBase parent) {
+            if ( !HasParent() ){
+                Parent = parent;
+                return true;
+            }
+            return false;
+        }
         public virtual string AsString() { return "FoBase"; }
 
         public override string ToString()

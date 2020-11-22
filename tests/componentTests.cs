@@ -20,11 +20,10 @@ namespace FoundryCore
                 new FoComponent("Comp3",props ),
             };
 
-            var root = new FoComponent("Root", props);
+            var root = new FoComponent("Root", comps);
 
             Console.WriteLine($"==========================");
             Console.WriteLine($"{root.toJson()}");
-            Console.WriteLine($"{comps.toJson()}");
             Console.WriteLine($".........................."); 
         }
  
