@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -27,6 +28,13 @@ namespace FoundryCore
         }
         public FoComponent Add(string key, object obj) {
             Properties.Add(key, obj);
+            return this;
+        }
+
+        public FoComponent Add(object obj) {
+            Type type = obj.GetType();
+            PropertyInfo pinfo = type.GetProperty("Name");
+            Properties.Add(pinfo.GetValue(obj).ToString(), obj);
             return this;
         }
     }

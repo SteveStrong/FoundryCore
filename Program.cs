@@ -35,10 +35,10 @@ namespace FoundryCore
             // Console.WriteLine($" to string {prop4}");
             // Console.WriteLine($" to string {prop5}");
 
-            comp1.Add("prop1", prop1);
-            comp1.Add("prop2a", prop2a);
-            comp1.Add("prop2b", prop2b);
-            comp1.Add("prop2c", prop2c);
+            comp1.Add(prop1);
+            comp1.Add(prop2a);
+            comp1.Add(prop2b);
+            comp1.Add(prop2c);
             Console.WriteLine($" to string {comp1}");
 
             comp1.toJson();
