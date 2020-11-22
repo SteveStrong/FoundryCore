@@ -11,7 +11,6 @@ namespace FoundryCore
     
     class FoProperty<T> : FoBase, IFoProperty
     {
-        public string Name { get; set; }
         private object _value { get; set; }
         public T Value
         {

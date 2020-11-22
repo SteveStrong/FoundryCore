@@ -7,7 +7,9 @@ namespace FoundryCore
     {
         static void Main(string[] args)
         {
-            propertyTests.test1();
+            //PropertyTests.test1();
+            //ComponentTests.test1();
+            ComponentTests.test2();
         }
     }
 }

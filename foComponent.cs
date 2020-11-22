@@ -9,42 +9,34 @@ using System.Text.Json.Serialization;
 
 namespace FoundryCore
 {
-
-    class FoComponent : FoBase
-    {
-
-        //[JsonInclude]
+    interface  IFoComponent {
         public string Name { get; set; }
-        public IFoProperty propx { get; set; }
+    }
+    class FoComponent : FoBase, IFoComponent
+    {
+        public FoPropertyManager Properties { get; set; }
 
         public object Extra { get => new { Amount = 108, Message = "Hello" };  }
 
-        //https://www.thecodebuzz.com/system-text-json-create-dictionary-converter-json-serialization/
-        public Dictionary<string, object> Properties = new Dictionary<string, object>();
-
         public FoComponent(string name)
         {
+            Properties = new FoPropertyManager(this);
             this.Name = name;
         }
-        public FoComponent Add(string key, object obj) {
-            Properties.Add(key, obj);
-            return this;
-        }
-
-        public FoComponent Add(object obj) {
-            Type type = obj.GetType();
-            PropertyInfo pinfo = type.GetProperty("Name");
-            Properties.Add(pinfo.GetValue(obj).ToString(), obj);
-            return this;
-        }
-
-        public FoComponent AddList(object[] value)
+        public FoComponent(string name, IFoProperty[] props): this(name)
         {
-            foreach(var obj in value) {
-                this.Add(obj);
-            }
-            return this;
+            Properties.AddList(props);
         }
+        
+
+        public object Reference(string name){
+            return Properties.find(name);
+        }
+
+        public T Reference<T>(string name){
+            return (T)Properties.find(name);
+        }
+       
     }
 
 

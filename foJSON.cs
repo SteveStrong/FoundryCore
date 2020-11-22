@@ -15,12 +15,14 @@ namespace FoundryCore
         static JsonSerializerOptions options = new()
         {
             //ReferenceHandler = ReferenceHandler.Preserve,
+            IgnoreNullValues = true,
+            IgnoreReadOnlyProperties = true,
             IncludeFields = true,
             WriteIndented = true
         };
         public static string toJson(this object source) {
             var json = JsonSerializer.Serialize(source, options);
-            Console.WriteLine($" json:- {json}");
+            // Console.WriteLine($"{json}");
             return json;
         }
     }
