@@ -27,6 +27,10 @@ namespace FoundryCore
             // Console.WriteLine($"{json}");
             return json;
         }
+
+        public static void saveToFile(this object source, string path) {
+            System.IO.File.WriteAllText(path, source.toJson());
+        }
     }
     
 }

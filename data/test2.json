@@ -1,0 +1,166 @@
+{
+  "Properties": {
+    "Manager": {
+      "total cost": {
+        "Value": 300,
+        "MyName": "total cost",
+        "MyType": "FoProperty::Double"
+      }
+    },
+    "Parent": {
+      "MyName": "Root",
+      "MyType": "FoComponent"
+    },
+    "MyType": "FoPropertyManager"
+  },
+  "Subcomponents": {
+    "Manager": {
+      "Comp1": {
+        "Properties": {
+          "Manager": {
+            "proper name": {
+              "Value": "Stephen R. Strong",
+              "MyName": "proper name",
+              "MyType": "FoProperty::String"
+            },
+            "cost": {
+              "Value": 100,
+              "MyName": "cost",
+              "MyType": "FoProperty::Double"
+            },
+            "tax": {
+              "Value": 0.33,
+              "MyName": "tax",
+              "MyType": "FoProperty::Double"
+            },
+            "total": {
+              "Value": 1000,
+              "MyName": "total",
+              "MyType": "FoProperty::Double"
+            }
+          },
+          "Parent": {
+            "MyName": "Comp1",
+            "MyType": "FoComponent"
+          },
+          "MyType": "FoPropertyManager"
+        },
+        "Subcomponents": {
+          "Manager": {},
+          "Parent": {
+            "MyName": "Comp1",
+            "MyType": "FoComponent"
+          },
+          "MyType": "FoComponentManager"
+        },
+        "Extra": {
+          "Amount": 108,
+          "Message": "Hello"
+        },
+        "MyName": "Comp1",
+        "MyType": "FoComponent"
+      },
+      "Comp2": {
+        "Properties": {
+          "Manager": {
+            "proper name": {
+              "Value": "Stephen R. Strong",
+              "MyName": "proper name",
+              "MyType": "FoProperty::String"
+            },
+            "cost": {
+              "Value": 100,
+              "MyName": "cost",
+              "MyType": "FoProperty::Double"
+            },
+            "tax": {
+              "Value": 0.33,
+              "MyName": "tax",
+              "MyType": "FoProperty::Double"
+            },
+            "total": {
+              "Value": 1000,
+              "MyName": "total",
+              "MyType": "FoProperty::Double"
+            }
+          },
+          "Parent": {
+            "MyName": "Comp2",
+            "MyType": "FoComponent"
+          },
+          "MyType": "FoPropertyManager"
+        },
+        "Subcomponents": {
+          "Manager": {},
+          "Parent": {
+            "MyName": "Comp2",
+            "MyType": "FoComponent"
+          },
+          "MyType": "FoComponentManager"
+        },
+        "Extra": {
+          "Amount": 108,
+          "Message": "Hello"
+        },
+        "MyName": "Comp2",
+        "MyType": "FoComponent"
+      },
+      "Comp3": {
+        "Properties": {
+          "Manager": {
+            "proper name": {
+              "Value": "Stephen R. Strong",
+              "MyName": "proper name",
+              "MyType": "FoProperty::String"
+            },
+            "cost": {
+              "Value": 100,
+              "MyName": "cost",
+              "MyType": "FoProperty::Double"
+            },
+            "tax": {
+              "Value": 0.33,
+              "MyName": "tax",
+              "MyType": "FoProperty::Double"
+            },
+            "total": {
+              "Value": 1000,
+              "MyName": "total",
+              "MyType": "FoProperty::Double"
+            }
+          },
+          "Parent": {
+            "MyName": "Comp3",
+            "MyType": "FoComponent"
+          },
+          "MyType": "FoPropertyManager"
+        },
+        "Subcomponents": {
+          "Manager": {},
+          "Parent": {
+            "MyName": "Comp3",
+            "MyType": "FoComponent"
+          },
+          "MyType": "FoComponentManager"
+        },
+        "Extra": {
+          "Amount": 108,
+          "Message": "Hello"
+        },
+        "MyName": "Comp3",
+        "MyType": "FoComponent"
+      }
+    },
+    "Parent": {
+      "MyName": "Root",
+      "MyType": "FoComponent"
+    },
+    "MyType": "FoComponentManager"
+  },
+  "Extra": {
+    "Amount": 108,
+    "Message": "Hello"
+  },
+  "MyName": "Root",
+  "MyType": "FoComponent"
+}

@@ -30,8 +30,10 @@ namespace FoundryCore
 
             Console.WriteLine($"===========================");
             Console.WriteLine($"{root.Properties.toJson()}");
-            Console.WriteLine($".........................."); 
-        }
+            Console.WriteLine($"..........................");
+
+            root.saveToFile(@"data/test2.json");
+         }
  
         public static void test1()
         {

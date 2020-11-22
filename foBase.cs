@@ -16,10 +16,11 @@ namespace FoundryCore
             get {
                 var type = this.GetType();
                 var arg = type.GetGenericArguments(); //[0];
+                var name = type.Name.Replace("\u00601", "");
                 if ( arg.Length > 0 ) {
-                    return $"{type.Name} :: {arg[0].Name}";
+                    return $"{name}::{arg[0].Name}";
                 }
-                return type.Name; 
+                return name; 
             } 
         }
         public bool HasParent() {
