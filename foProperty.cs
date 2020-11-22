@@ -6,25 +6,43 @@ using System.Text;
 namespace FoundryCore
 {
     interface  IFoProperty {
-        public string Name { get; set; }
+        public string MyName { get; set; }
     }
     
     class FoProperty<T> : FoBase, IFoProperty
     {
-        public string Name { get; set; }
         private object _value { get; set; }
         public T Value
         {
+            set {
+                _value = value;
+            }
             get
             {
+                if ( _formula != null ) {
+                    _value = _formula();
+                }
                 return _value != null ? (T)Convert.ChangeType(_value, typeof(T)) : default(T);
+            }
+        }
+        private Func<T> _formula { get; set; }
+        public Func<T> Formula
+        {
+            set {
+                _formula = value;
             }
         }
     
         public FoProperty(string name, object value = default)
         {
-            Name = name;
+            MyName = name;
             _value = value;
+        }
+
+        public FoProperty(string name, Func<T> formula)
+        {
+            MyName = name;
+            _formula = formula;
         }
 
         public override string AsString()

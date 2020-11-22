@@ -9,42 +9,48 @@ using System.Text.Json.Serialization;
 
 namespace FoundryCore
 {
-
-    class FoComponent : FoBase
+    interface  IFoComponent {
+        public string MyName { get; set; }
+        public T Reference<T>(string name);
+    }
+    class FoComponent : FoBase, IFoComponent
     {
-
-        //[JsonInclude]
-        public string Name { get; set; }
-        public IFoProperty propx { get; set; }
+        public FoPropertyManager Properties { get; set; }
+        public FoComponentManager Subcomponents { get; set; }
 
         public object Extra { get => new { Amount = 108, Message = "Hello" };  }
 
-        //https://www.thecodebuzz.com/system-text-json-create-dictionary-converter-json-serialization/
-        public Dictionary<string, object> Properties = new Dictionary<string, object>();
-
         public FoComponent(string name)
         {
-            this.Name = name;
+            this.MyName = name;
+            Properties = new FoPropertyManager(this);
+            Subcomponents = new FoComponentManager(this);
         }
-        public FoComponent Add(string key, object obj) {
-            Properties.Add(key, obj);
-            return this;
-        }
-
-        public FoComponent Add(object obj) {
-            Type type = obj.GetType();
-            PropertyInfo pinfo = type.GetProperty("Name");
-            Properties.Add(pinfo.GetValue(obj).ToString(), obj);
-            return this;
-        }
-
-        public FoComponent AddList(object[] value)
+        public FoComponent(string name, IFoProperty[] props): this(name)
         {
-            foreach(var obj in value) {
-                this.Add(obj);
-            }
-            return this;
+            Properties.AddList(props);
         }
+
+        public FoComponent(string name, IFoComponent[] comps): this(name)
+        {
+            Subcomponents.AddList(comps);
+        }
+        
+        public double SumOver(string name){
+            double result = 0;
+            var list = Subcomponents.AsList<FoComponent>().Select(x => x.Reference<FoProperty<double>>(name).Value );
+            result = list.Sum();
+            return result;
+        }
+
+        public object Reference(string name){
+            return Properties.find(name);
+        }
+
+        public T Reference<T>(string name){
+            return (T)Properties.find(name);
+        }
+       
     }
 
 
