@@ -11,6 +11,7 @@ namespace FoundryCore
     
     class FoProperty<T> : FoBase, IFoProperty
     {
+        public string Name { get; set; }
         private object _value { get; set; }
         public T Value
         {
@@ -19,7 +20,6 @@ namespace FoundryCore
                 return _value != null ? (T)Convert.ChangeType(_value, typeof(T)) : default(T);
             }
         }
-        public string Name { get; set; }
     
         public FoProperty(string name, object value = default)
         {
