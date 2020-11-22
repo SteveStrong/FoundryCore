@@ -12,10 +12,16 @@ namespace FoundryCore
     class FoProperty<T> : FoBase, IFoProperty
     {
         private object _value { get; set; }
-        public T Value { get => (T)Convert.ChangeType(_value, typeof(T)); }
+        public T Value
+        {
+            get
+            {
+                return _value != null ? (T)Convert.ChangeType(_value, typeof(T)) : default(T);
+            }
+        }
         public string Name { get; set; }
     
-        public FoProperty(string name, T value = default)
+        public FoProperty(string name, object value = default)
         {
             Name = name;
             _value = value;
