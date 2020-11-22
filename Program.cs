@@ -39,11 +39,11 @@ namespace FoundryCore
             IFoProperty[] props = { prop1, prop2a, prop2b, prop2c };
             comp1.AddList(props);
 
-            Console.WriteLine($" to string {comp1}");
+            Console.WriteLine($" comp {comp1}");
 
             comp1.toJson();
 
-            prop2b.Value = .55;
+            prop2b.Value = .505;
 
             comp1.toJson();
 
