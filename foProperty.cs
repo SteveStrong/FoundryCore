@@ -13,12 +13,24 @@ namespace FoundryCore
     {
         public string Name { get; set; }
         private object _value { get; set; }
-         private Func<T> _calculate { get; set; }
         public T Value
         {
+            set {
+                _value = value;
+            }
             get
             {
+                if ( _formula != null ) {
+                    _value = _formula();
+                }
                 return _value != null ? (T)Convert.ChangeType(_value, typeof(T)) : default(T);
+            }
+        }
+        private Func<T> _formula { get; set; }
+        public Func<T> Formula
+        {
+            set {
+                _formula = value;
             }
         }
     
@@ -28,10 +40,10 @@ namespace FoundryCore
             _value = value;
         }
 
-        public FoProperty(string name, Func<T> calculate)
+        public FoProperty(string name, Func<T> formula)
         {
             Name = name;
-            _calculate = calculate;
+            _formula = formula;
         }
 
         public override string AsString()

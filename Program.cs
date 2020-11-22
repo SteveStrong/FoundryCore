@@ -16,7 +16,8 @@ namespace FoundryCore
             var prop2b = new FoProperty<double>("tax", .33);
             prop2b.toJson();
 
-            var prop2c = new FoProperty<double>("total", prop2a.Value * prop2b.Value);
+            Func<double> func = () => { return 1000 * prop2a.Value * prop2b.Value; };
+            var prop2c = new FoProperty<double>("total", func);
             prop2c.toJson();
 
             string[] stuff = { "one", "two", "three", "5" };
@@ -39,6 +40,14 @@ namespace FoundryCore
             comp1.AddList(props);
 
             Console.WriteLine($" to string {comp1}");
+
+            comp1.toJson();
+
+            prop2b.Value = .55;
+
+            comp1.toJson();
+
+            prop2c.Formula = () => { return prop2a.Value * prop2b.Value; };
 
             comp1.toJson();
 
