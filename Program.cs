@@ -8,16 +8,16 @@ namespace FoundryCore
         static void Main(string[] args)
         {
             var prop1 = new FoProperty<string>("xxx", "Stephen R. Strong");
-            prop1.asJson(prop1);
+            prop1.toJson();
 
             var prop2a = new FoProperty<double>("cost", 100);
-            prop2a.asJson(prop2a);
+            prop2a.toJson();
 
             var prop2b = new FoProperty<double>("tax", .33);
-            prop2b.asJson(prop2b);
+            prop2b.toJson();
 
             var prop2c = new FoProperty<double>("total", prop2a.Value * prop2b.Value);
-            //prop2c.asJson(prop2c);
+            prop2c.toJson();
 
             string[] stuff = { "one", "two", "three", "5" };
             var prop3 = new FoCollection<string>("count",stuff);
@@ -41,7 +41,7 @@ namespace FoundryCore
             comp1.Add("prop2c", prop2c);
             Console.WriteLine($" to string {comp1}");
 
-            comp1.asJson(comp1);
+            comp1.toJson();
 
             
             //prop4.asJson(prop4);
