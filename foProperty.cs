@@ -11,13 +11,14 @@ namespace FoundryCore
     
     class FoProperty<T> : FoBase, IFoProperty
     {
-        public T Value { get; set; }
+        private object _value { get; set; }
+        public T Value { get => (T)Convert.ChangeType(_value, typeof(T)); }
         public string Name { get; set; }
     
         public FoProperty(string name, T value = default)
         {
             Name = name;
-            Value = value;
+            _value = value;
         }
 
         public override string AsString()
