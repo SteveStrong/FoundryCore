@@ -5,37 +5,18 @@ using System.Text;
 
 namespace FoundryCore
 {
-    public static class Extensions
-    {
-        public static String Blank(this String me)
-        {
-            return String.Empty;
-        }
-        public static T Blank<T>(this T me)
-        {
-            var tot = typeof(T);
-            return tot.IsValueType
-              ? default(T)
-              : (T)Activator.CreateInstance(tot)
-              ;
-        }
+    interface  IFoProperty {
+        public string Name { get; set; }
     }
-
-    class FoBase
-    {
-        public virtual string AsString() { return "FoBase"; }
-
-        public override string ToString()
-        {
-            return AsString();
-        }
-    }
-    class FoProperty<T> : FoBase
+    
+    class FoProperty<T> : FoBase, IFoProperty
     {
         public T Value { get; set; }
-
+        public string Name { get; set; }
+    
         public FoProperty(T value = default)
         {
+            this.Name = "mike";
             this.Value = value;
         }
 
@@ -51,7 +32,7 @@ namespace FoundryCore
 
         public FoCollection(T[] value = default) 
         {
-            Value = value == default ? new List<T>() :new List<T>(value);
+            Value = value == default ? new List<T>() : new List<T>(value);
         }
 
         public override string AsString()
