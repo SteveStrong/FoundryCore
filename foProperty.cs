@@ -6,7 +6,7 @@ using System.Text;
 namespace FoundryCore
 {
     interface  IFoProperty {
-        public string Name { get; set; }
+        public string MyName { get; set; }
     }
     
     class FoProperty<T> : FoBase, IFoProperty
@@ -35,13 +35,13 @@ namespace FoundryCore
     
         public FoProperty(string name, object value = default)
         {
-            Name = name;
+            MyName = name;
             _value = value;
         }
 
         public FoProperty(string name, Func<T> formula)
         {
-            Name = name;
+            MyName = name;
             _formula = formula;
         }
 

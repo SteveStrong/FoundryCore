@@ -26,17 +26,25 @@ namespace FoundryCore
             Parent = parent;
         }
 
+        public List<T> AsList<T>(){
+            var result = new List<T>();
+            _properties.Values.ToList().ForEach( item => {
+                result.Add((T)item);
+            });
+            return result;
+        }
         public object find(string key) {
             return _properties[key];
         }
         public FoPropertyManager Add(string key, object obj) {
+            ((FoBase)obj).SetParent(this.Parent);
             _properties.Add(key, obj);
             return this;
         }
 
         public FoPropertyManager Add(object obj) {
             Type type = obj.GetType();
-            PropertyInfo pinfo = type.GetProperty("Name");
+            PropertyInfo pinfo = type.GetProperty("MyName");
             _properties.Add(pinfo.GetValue(obj).ToString(), obj);
             return this;
         }

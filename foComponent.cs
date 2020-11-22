@@ -10,7 +10,8 @@ using System.Text.Json.Serialization;
 namespace FoundryCore
 {
     interface  IFoComponent {
-        public string Name { get; set; }
+        public string MyName { get; set; }
+        public T Reference<T>(string name);
     }
     class FoComponent : FoBase, IFoComponent
     {
@@ -21,7 +22,7 @@ namespace FoundryCore
 
         public FoComponent(string name)
         {
-            this.Name = name;
+            this.MyName = name;
             Properties = new FoPropertyManager(this);
             Subcomponents = new FoComponentManager(this);
         }
@@ -35,6 +36,12 @@ namespace FoundryCore
             Subcomponents.AddList(comps);
         }
         
+        public double SumOver(string name){
+            double result = 0;
+            var list = Subcomponents.AsList<FoComponent>().Select(x => x.Reference<FoProperty<double>>(name).Value );
+            result = list.Sum();
+            return result;
+        }
 
         public object Reference(string name){
             return Properties.find(name);

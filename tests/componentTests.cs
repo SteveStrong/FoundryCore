@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace FoundryCore
@@ -8,7 +9,7 @@ namespace FoundryCore
         public static void test2()
         {
             IFoProperty[] props = {
-                new FoProperty<string>("xxx", "Stephen R. Strong"),
+                new FoProperty<string>("proper name", "Stephen R. Strong"),
                 new FoProperty<double>("cost", 100),
                 new FoProperty<double>("tax", .33),
                 new FoProperty<double>("total", () => { return 1000; })
@@ -21,9 +22,14 @@ namespace FoundryCore
             };
 
             var root = new FoComponent("Root", comps);
+            var total = new FoProperty<double>("total cost", () => {
+                double result = root.SumOver("cost");
+                return result;
+            });
+            root.Properties.Add(total);
 
-            Console.WriteLine($"==========================");
-            Console.WriteLine($"{root.toJson()}");
+            Console.WriteLine($"===========================");
+            Console.WriteLine($"{root.Properties.toJson()}");
             Console.WriteLine($".........................."); 
         }
  
@@ -46,13 +52,13 @@ namespace FoundryCore
 
 
             Console.WriteLine($"==========================");
-            Console.WriteLine($"Component: {comp1.Name}");
+            Console.WriteLine($"Component: {comp1.MyName}");
             Console.WriteLine($"{comp1.toJson()}");
             Console.WriteLine($"..........................");
 
             cost.Value = 1;
             Console.WriteLine($"==========================");
-            Console.WriteLine($"Component: {comp1.Name}");
+            Console.WriteLine($"Component: {comp1.MyName}");
             Console.WriteLine($"{comp1.toJson()}");
             Console.WriteLine($".........................."); 
         }
