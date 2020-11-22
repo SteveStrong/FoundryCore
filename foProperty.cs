@@ -13,6 +13,7 @@ namespace FoundryCore
     {
         public string Name { get; set; }
         private object _value { get; set; }
+         private Func<T> _calculate { get; set; }
         public T Value
         {
             get
@@ -25,6 +26,12 @@ namespace FoundryCore
         {
             Name = name;
             _value = value;
+        }
+
+        public FoProperty(string name, Func<T> calculate)
+        {
+            Name = name;
+            _calculate = calculate;
         }
 
         public override string AsString()
