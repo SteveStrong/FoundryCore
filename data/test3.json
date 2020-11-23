@@ -1,8 +1,10 @@
 {
   "Properties": {
     "Manager": {
-      "total cost": {
-        "helloooooo": "steveie"
+      "proper name": {
+        "Value": "Stephen R. Strong",
+        "MyName": "proper name",
+        "MyType": "FoProperty::String"
       }
     },
     "Parent": {
@@ -12,25 +14,12 @@
     "MyType": "FoPropertyManager"
   },
   "Subcomponents": {
-    "Manager": {
-      "Comp1": {
-        "helloooooo": "steveie"
-      },
-      "Comp2": {
-        "helloooooo": "steveie"
-      },
-      "Comp3": {
-        "helloooooo": "steveie"
-      }
-    },
+    "Manager": {},
     "Parent": {
       "MyName": "Root",
       "MyType": "FoComponent"
     },
     "MyType": "FoComponentManager"
-  },
-  "Extra": {
-    "helloooooo": "steveie"
   },
   "MyName": "Root",
   "MyType": "FoComponent"

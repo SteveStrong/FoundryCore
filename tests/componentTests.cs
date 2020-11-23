@@ -6,6 +6,39 @@ namespace FoundryCore
 {
     class ComponentTests
     {
+        public static void test4()
+        {
+            var body = JSONExtensions.readFromFile(@"data/create_root.json");
+            var name = body.GetProperty("MyName");
+            var root = new FoComponent(name.ToString());
+            root.exportAsJson(@"data/test4.json");
+
+            var handle = Activator.CreateInstance(root.GetType()) as FoComponent;
+            handle.MyName = "ffrfrf";
+
+            Console.WriteLine($"{handle.toJson()}");
+            Console.WriteLine($"===========================");
+            Console.WriteLine($"{root.toJson()}");
+            Console.WriteLine($"..........................");
+         }
+ 
+        public static void test3()
+        {
+            IFoProperty[] props = {
+                new FoProperty<string>("proper name", "Stephen R. Strong"),
+            };
+
+
+            var root = new FoComponent("Root", props);
+
+            Console.WriteLine($"===========================");
+            // Console.WriteLine($"{root.Properties.toJson()}");
+            Console.WriteLine($"{root.toJson()}");
+            Console.WriteLine($"..........................");
+
+            root.saveToFile(@"data/test3.json");
+         }
+ 
         public static void test2()
         {
             IFoProperty[] props = {
@@ -29,7 +62,8 @@ namespace FoundryCore
             root.Properties.Add(total);
 
             Console.WriteLine($"===========================");
-            Console.WriteLine($"{root.Properties.toJson()}");
+            // Console.WriteLine($"{root.Properties.toJson()}");
+            Console.WriteLine($"{root.toJson()}");
             Console.WriteLine($"..........................");
 
             root.saveToFile(@"data/test2.json");

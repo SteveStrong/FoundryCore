@@ -9,7 +9,7 @@ namespace FoundryCore
         {
             //PropertyTests.test1();
             //ComponentTests.test1();
-            ComponentTests.test2();
+            ComponentTests.test4();
         }
     }
 }

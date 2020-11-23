@@ -10,7 +10,7 @@ using System.Text.Json.Serialization;
 namespace FoundryCore
 {
 
-    class FoPropertyManager : FoBase
+    public class FoPropertyManager : FoBase
     {
         //https://www.thecodebuzz.com/system-text-json-create-dictionary-converter-json-serialization/
         private Dictionary<string, object> _properties = new Dictionary<string, object>();
