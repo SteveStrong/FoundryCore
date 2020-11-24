@@ -15,15 +15,20 @@ namespace FoundryCore
         private long _InstanceCount = 0;
 
 
-		private FoCollection<FoClass> _oSuperClasses { get; set; }
-        private FoCollection<FoClass> _oSubClasses { get; set; }
+		private FoCollection<FoClass> _SuperClass { get; set; }
+        private FoCollection<FoClass> _SubClass { get; set; }
 
 		public FoClass() :base()
 		{
-			_oSuperClasses = new FoCollection<FoClass>("SuperClass");
-			_oSubClasses = new FoCollection<FoClass>("SubClass");
+			_SuperClass = new FoCollection<FoClass>("SuperClass");
+			_SubClass = new FoCollection<FoClass>("SubClass");
 		}
-
+		public FoClass(string name) :this()
+		{
+            this.MyName = name;
+        }
+        public FoCollection<FoClass> Supers { get { return _SuperClass; }}
+        public FoCollection<FoClass> Subs { get { return _SubClass; }}
         public Type ApprenticeType(object oObject)
 		{
 			if ( oObject.GetType().IsSubclassOf(typeof(Type)) )
@@ -64,39 +69,57 @@ namespace FoundryCore
 			return oaType;
 		}
 
-public bool HasConstructionType(Type oType)
+        public bool HasConstructionType(Type oType)
 		{
 			Type oMyType = ConstructionType;
 			return (oMyType == oType || oMyType.IsSubclassOf(oType));
 		}
-		private Type DetermineConstruction(Type oDefaultType)
+		private Type DetermineConstruction(Type DefaultType)
 		{			
 			if (_ConstructionType != null)
 				return _ConstructionType;
 
 			Type oType = ApprenticeType(MyName);
-			if (oType != null && oType.IsClass && oType.IsSubclassOf(oDefaultType) )
+			if (oType != null && oType.IsClass && oType.IsSubclassOf(DefaultType) )
 				return oType;
 
-			ClassObject oClass = m_oSuperClasses.First as ClassObject; 
+			FoClass oClass = _SuperClass[0] as FoClass; 
 
 			if ( oClass == null ) 
-				return oDefaultType;
+				return DefaultType;
 			else 
-				oType = oClass.DetermineConstruction(oDefaultType);
+				oType = oClass.DetermineConstruction(DefaultType);
 
-			if ( m_oSuperClasses.Count > 1 )
-				foreach(ClassObject oSuper in m_oSuperClasses)
+			if ( _SuperClass.Count > 1 )
+				foreach(FoClass oSuper in _SuperClass.Value)
 				{
 					if ( oSuper == oClass )
 						continue;
 
-					Type oNewType = oSuper.DetermineConstruction(oDefaultType);
+					Type oNewType = oSuper.DetermineConstruction(DefaultType);
 					oType = oNewType.IsSubclassOf(oType) ? oNewType : oType;
 				}
 
 			return oType;
 
+		}
+
+        public virtual bool AddInheritFrom(FoClass superClass)
+		{
+			if ( superClass == null || superClass == this )
+				return false;
+
+			_SuperClass.AddNoDuplicate(superClass);
+			superClass.Subs.AddNoDuplicate(this);
+			return true;
+		}
+
+        public virtual Type DefaultConstruction
+		{
+			get 
+			{ 
+				return typeof(FoComponent);
+			}
 		}
         public virtual Type ConstructionType
 		{
@@ -147,35 +170,12 @@ public bool HasConstructionType(Type oType)
             var count4 = _InstanceCount.ToString().PadLeft(4, '0');
             return $"{GetType().Name} {count4}".CreateInternalName();
 		}
-        public FoBase ConstructInstanceCore(string sName, FoBase oTarget, int iIndex)
+        public FoBase ConstructInstanceCore(string sName, FoBase oTarget)
 		{
 			string sInstanceName = InstanceName(sName);
-			InstanceObject oObject = null;
-			try 
-			{
-				object[] oParams = { sInstanceName };
-				oObject = Activator.CreateInstance(ConstructionType,oParams) as FoBase;
-				oParams = null;
 
-				oObject.MyIndex = iIndex;
-				oObject.InstanceID = _InstanceCount;
-				if ( sName.Length > 0 )  //modified in 6.3x to keep shape names real
-					oObject.CustomName = sName;
-			}
-			catch(Exception e)
-			{
-				//ApprenticeObject.ReportException(e);
-				return null;
-			}
-
-
-			if (oTarget != null) 
-			{
-				//oObject.Status.IsBuilding = true;
-				oObject.Status.UserSpecified = Status.UserSpecified ? true : (sName.Length == 0);
-				oTarget.AddChildObject(oObject);
-				oObject.AfterInstanceParented();
-			}
+            object[] oParams = { sInstanceName };
+            FoBase oObject = Activator.CreateInstance(ConstructionType,oParams) as FoBase;
 
 			return oObject;
 		}
