@@ -18,8 +18,8 @@ namespace FoundryCore
             var root = builder.ConstructInstanceCore("");
 
             Console.WriteLine($"===========================");
-            Console.WriteLine($"{root.toJson()}");
-            //root.exportAsJson(@"data/test5.json");
+            //Console.WriteLine($"{root.toJson()}");
+            root.exportAsJson(@"data/test5.json");
             Console.WriteLine($"..........................");
          }
 

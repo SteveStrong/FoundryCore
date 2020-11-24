@@ -58,7 +58,7 @@ namespace FoundryCore
             return AsString();
         }
         public virtual void WriteAsJSON(Utf8JsonWriter writer) {
-            writer.WriteStartObject();
+            writer.WriteStartObject(@"CCCCCCC");
             writer.WriteString("MyName",this.MyName);
             writer.WriteString("Guid", UniqueID.ToString());
             writer.WriteString("MyType", MyType.ToString());
