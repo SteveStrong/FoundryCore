@@ -6,6 +6,23 @@ namespace FoundryCore
 {
     class ComponentTests
     {
+        
+        public static void test5()
+        {
+            var body = JSONExtensions.readFromFile(@"data/create_root.json");
+
+            var name = body.GetProperty("MyName").ToString();
+            var type = body.GetProperty("MyType").ToString();
+
+            var builder = new FoClass(type);
+            var root = builder.ConstructInstanceCore("");
+
+            Console.WriteLine($"===========================");
+            Console.WriteLine($"{root.toJson()}");
+            //root.exportAsJson(@"data/test5.json");
+            Console.WriteLine($"..........................");
+         }
+
         public static void test4()
         {
             var body = JSONExtensions.readFromFile(@"data/create_root.json");

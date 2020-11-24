@@ -180,8 +180,6 @@ using System.Text.Json.Serialization;
                 WriteIndented = true
             };
             //options.Converters.Add(new FoPropertyManagerConverter());
-
-
             var json = JsonSerializer.Serialize(source, options);
             return json;
         }
@@ -214,6 +212,8 @@ using System.Text.Json.Serialization;
                 return doc.RootElement.Clone();
             }
         }
+
+        
     }
     
 }

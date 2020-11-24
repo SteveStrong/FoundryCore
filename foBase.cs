@@ -60,9 +60,14 @@ namespace FoundryCore
         public virtual void WriteAsJSON(Utf8JsonWriter writer) {
             writer.WriteStartObject();
             writer.WriteString("MyName",this.MyName);
-            writer.WriteString("date", DateTimeOffset.UtcNow);
-            writer.WriteNumber("temp", 42);
+            writer.WriteString("Guid", UniqueID.ToString());
+            writer.WriteString("MyType", MyType.ToString());
             writer.WriteEndObject();
+        }
+        public virtual void ReadFromJSON(JsonElement body) {
+            var name = body.GetProperty("MyName").ToString();
+            var guid = body.GetProperty("Guid").ToString();
+            var type = body.GetProperty("MyType").ToString();
         }
     }
     

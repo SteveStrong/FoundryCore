@@ -29,6 +29,7 @@ namespace FoundryCore
         }
         public FoCollection<FoClass> Supers { get { return _SuperClass; }}
         public FoCollection<FoClass> Subs { get { return _SubClass; }}
+
         public Type ApprenticeType(object oObject)
 		{
 			if ( oObject.GetType().IsSubclassOf(typeof(Type)) )
@@ -170,7 +171,7 @@ namespace FoundryCore
             var count4 = _InstanceCount.ToString().PadLeft(4, '0');
             return $"{GetType().Name} {count4}".CreateInternalName();
 		}
-        public FoBase ConstructInstanceCore(string sName, FoBase oTarget)
+        public FoBase ConstructInstanceCore(string sName)
 		{
 			string sInstanceName = InstanceName(sName);
 

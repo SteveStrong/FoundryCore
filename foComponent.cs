@@ -54,7 +54,42 @@ namespace FoundryCore
         public T Reference<T>(string name){
             return (T)Properties.find(name);
         }
-       
+        public override void WriteAsJSON(Utf8JsonWriter writer) {
+            base.WriteAsJSON(writer);
+            // writer.WriteStartObject();
+            // writer.WriteStartArray("Properties");
+            // writer.WriteEndArray();
+            // writer.WriteEndObject();
+
+            writer.WriteStartObject();
+
+            writer.WriteNumber("age", 15);
+            writer.WriteString("date", DateTime.Now);
+            writer.WriteString("first", "John");
+            writer.WriteString("last", "Smith");
+
+            writer.WriteStartArray("phoneNumbers");
+            writer.WriteStringValue("425-000-1212");
+            writer.WriteStringValue("425-000-1213");
+            writer.WriteEndArray();
+
+            writer.WriteStartObject("address");
+            writer.WriteString("street", "1 Microsoft Way");
+            writer.WriteString("city", "Redmond");
+            writer.WriteNumber("zip", 98052);
+            writer.WriteEndObject();
+
+            writer.WriteStartArray("ExtraArray");
+            var extraData = new[] { 1, 2, 3, 4, 5, 6, 7 };
+            for (var i = 0; i < extraData.Length; i++)
+            {
+                writer.WriteNumberValue(extraData[i]);
+            }
+            writer.WriteEndArray();
+
+            writer.WriteEndObject();
+
+        }
     }
 
 
