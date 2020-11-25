@@ -55,24 +55,26 @@ namespace FoundryCore
             return (T)Properties.find(name);
         }
         public override void WriteAsJSON(Utf8JsonWriter writer) {
-            writer.WriteStartObject();
             base.WriteAsJSON(writer);
+            writer.WriteStartObject("ccc");
+
+                writer.WriteNumber("age", 15);
+                writer.WriteString("date", DateTime.Now);
+                writer.WriteString("first", "John");
+                writer.WriteString("last", "Smith");
+
+                writer.WriteStartArray("phoneNumbers");
+                writer.WriteStringValue("425-000-1212");
+                writer.WriteStringValue("425-000-1213");
+                writer.WriteEndArray();
+
             writer.WriteEndObject();
             // writer.WriteStartArray("Properties");
             // writer.WriteEndArray();
             // writer.WriteEndObject();
 
-            writer.WriteStartObject();
+            // writer.WriteStartObject();
 
-            writer.WriteNumber("age", 15);
-            writer.WriteString("date", DateTime.Now);
-            writer.WriteString("first", "John");
-            writer.WriteString("last", "Smith");
-
-            writer.WriteStartArray("phoneNumbers");
-            writer.WriteStringValue("425-000-1212");
-            writer.WriteStringValue("425-000-1213");
-            writer.WriteEndArray();
 
             writer.WriteStartObject("address");
             writer.WriteString("street", "1 Microsoft Way");
@@ -88,7 +90,7 @@ namespace FoundryCore
             }
             writer.WriteEndArray();
 
-            writer.WriteEndObject();
+            //writer.WriteEndObject();
 
         }
     }

@@ -1,9 +1,33 @@
 {
-  "account_id": "1234567890",
-  "rate": 1,
-  "balance": [
-    "GBP",
-    10000
-  ],
-  "account_open": true
+  "model": {
+    "FoClass_0001": {
+      "MyName": "FoClass_0001",
+      "Guid": "77a00515-a7e7-48ca-9adb-aeb01b826a5f",
+      "MyType": "FoComponent"
+    },
+    "ccc": {
+      "age": 15,
+      "date": "2020-11-24T21:39:44.7932326-05:00",
+      "first": "John",
+      "last": "Smith",
+      "phoneNumbers": [
+        "425-000-1212",
+        "425-000-1213"
+      ]
+    },
+    "address": {
+      "street": "1 Microsoft Way",
+      "city": "Redmond",
+      "zip": 98052
+    },
+    "ExtraArray": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  }
 }
