@@ -10,7 +10,7 @@ using System.Text.Json.Serialization;
 namespace FoundryCore
 {
 
-    class FoPropertyManager : FoBase
+    public class FoPropertyManager : FoBase
     {
         //https://www.thecodebuzz.com/system-text-json-create-dictionary-converter-json-serialization/
         private Dictionary<string, object> _properties = new Dictionary<string, object>();
@@ -26,6 +26,20 @@ namespace FoundryCore
             Parent = parent;
         }
 
+        public override void WriteAsJsonStart(Utf8JsonWriter writer)
+        {
+            if ( this._properties?.Count == 0 ) return;
+            
+            writer.WriteStartObject("Properties");
+            _properties.Values.ToList().ForEach( item => {
+                ((FoBase)item).WriteAsJson(writer);
+            });
+
+        }
+        public override void WriteAsJsonEnd(Utf8JsonWriter writer)
+        {
+            writer.WriteEndObject();
+        }      
         public List<T> AsList<T>(){
             var result = new List<T>();
             _properties.Values.ToList().ForEach( item => {

@@ -1,0 +1,17 @@
+{
+  "Model": {
+    "Components": [
+      {
+        "FoClass_0001": {
+          "MyName": "FoClass_0001",
+          "Guid": "387c6652-9d55-4442-a09e-6b7cb0253179",
+          "MyType": "FoComponent",
+          "age": 15,
+          "date": "2020-11-24T22:30:23.1636317-05:00",
+          "first": "John",
+          "last": "Smith"
+        }
+      }
+    ]
+  }
+}

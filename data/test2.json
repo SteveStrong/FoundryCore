@@ -1,0 +1,37 @@
+{
+  "Properties": {
+    "Manager": {
+      "total cost": {
+        "helloooooo": "steveie"
+      }
+    },
+    "Parent": {
+      "MyName": "Root",
+      "MyType": "FoComponent"
+    },
+    "MyType": "FoPropertyManager"
+  },
+  "Subcomponents": {
+    "Manager": {
+      "Comp1": {
+        "helloooooo": "steveie"
+      },
+      "Comp2": {
+        "helloooooo": "steveie"
+      },
+      "Comp3": {
+        "helloooooo": "steveie"
+      }
+    },
+    "Parent": {
+      "MyName": "Root",
+      "MyType": "FoComponent"
+    },
+    "MyType": "FoComponentManager"
+  },
+  "Extra": {
+    "helloooooo": "steveie"
+  },
+  "MyName": "Root",
+  "MyType": "FoComponent"
+}

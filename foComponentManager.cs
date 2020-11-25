@@ -26,6 +26,27 @@ namespace FoundryCore
             Parent = parent;
         }
 
+        public override void WriteAsJsonStart(Utf8JsonWriter writer)
+        {
+            if ( this._components?.Count == 0 ) return;
+            
+            writer.WriteStartObject("Subcomponents");
+            _components.Values.ToList().ForEach( item => {
+                var child = item as FoBase;
+                writer.WriteStartObject(child.MyName);
+                writer.WriteString("MyName",child.MyName);
+                writer.WriteString("Guid", child.UniqueID.ToString());
+                writer.WriteString("MyType", child.MyType.ToString());
+                //((FoBase)item).WriteAsJson(writer);
+                writer.WriteEndObject();
+            });
+
+        }
+        public override void WriteAsJsonEnd(Utf8JsonWriter writer)
+        {
+            writer.WriteEndObject();
+        } 
+
         public List<T> AsList<T>(){
             var result = new List<T>();
             _components.Values.ToList().ForEach( item => {

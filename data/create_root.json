@@ -1,0 +1,11 @@
+{
+  "MyName": "for real",
+  "MyType": "FoComponent",
+  "Properties": {
+      "proper name": {
+        "Value": "Stephen R. Strong",
+        "MyName": "proper name",
+        "MyType": "FoProperty::String"
+      }
+  }
+}

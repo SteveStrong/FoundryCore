@@ -1,0 +1,26 @@
+{
+  "Properties": {
+    "Manager": {
+      "proper name": {
+        "Value": "Stephen R. Strong",
+        "MyName": "proper name",
+        "MyType": "FoProperty::String"
+      }
+    },
+    "Parent": {
+      "MyName": "Root",
+      "MyType": "FoComponent"
+    },
+    "MyType": "FoPropertyManager"
+  },
+  "Subcomponents": {
+    "Manager": {},
+    "Parent": {
+      "MyName": "Root",
+      "MyType": "FoComponent"
+    },
+    "MyType": "FoComponentManager"
+  },
+  "MyName": "Root",
+  "MyType": "FoComponent"
+}
