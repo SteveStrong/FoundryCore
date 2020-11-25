@@ -1,6 +1,9 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using System.Text;
 
 namespace FoundryCore
 {
@@ -9,7 +12,9 @@ namespace FoundryCore
         
         public static void test5()
         {
-            var body = JSONExtensions.readFromFile(@"data/create_root.json");
+            var path = "C:\\Users\\Steve\\workspace\\FoundryDotNet5\\FoundryCore\\data\\create_root.json";
+            var body = JSONExtensions.readFromFile(path);
+            //var body = JSONExtensions.readFromFile(@"data/create_root.json");
 
             var name = body.GetProperty("MyName").ToString();
             var type = body.GetProperty("MyType").ToString();
@@ -17,9 +22,38 @@ namespace FoundryCore
             var builder = new FoClass(type);
             var root = builder.ConstructInstanceCore("");
 
+            using var stream = new MemoryStream();
+            using (var writer0 = new Utf8JsonWriter(stream))
+            {
+                writer0.WriteStartObject();
+                writer0.WriteString("account_id", "1234567890");
+                writer0.WriteNumber("rate", 1);
+                writer0.WriteStartArray("balance");
+                //note: I break it into 2 lines because they're seperated by comma.
+                //If you mean ["GBP":10000] then it is WriteNumber("GBP", 10000)
+                writer0.WriteStringValue("GBP");
+                writer0.WriteNumberValue(10000);
+                writer0.WriteEndArray();
+                writer0.WriteBoolean("account_open", true);
+                writer0.WriteEndObject();
+            }
+            string json0 = Encoding.UTF8.GetString(stream.ToArray());
+            
+            Console.WriteLine(json0);
+
+
+            // using var stream1 = new MemoryStream();
+            // using (var writer0 = new Utf8JsonWriter(stream1))
+            // {
+            //     writer0.WriteStartObject();
+            //     JsonSerializer.Serialize(writer0, root);
+            //     writer0.WriteEndObject();
+            //     writer0.Flush();
+            // }
+
             Console.WriteLine($"===========================");
             //Console.WriteLine($"{root.toJson()}");
-            root.exportAsJson(@"data/test5.json");
+            //root.exportAsJson(@"data/test5.json");
             Console.WriteLine($"..........................");
          }
 

@@ -55,7 +55,7 @@ namespace FoundryCore
             return (T)Properties.find(name);
         }
         public override void WriteAsJSON(Utf8JsonWriter writer) {
-             writer.WriteStartObject("fffff");
+            writer.WriteStartObject();
             base.WriteAsJSON(writer);
             writer.WriteEndObject();
             // writer.WriteStartArray("Properties");

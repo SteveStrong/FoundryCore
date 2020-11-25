@@ -186,14 +186,16 @@ using System.Text.Json.Serialization;
 
         public static void exportAsJson(this FoBase source, string path) {
             var options = new JsonWriterOptions {
-                Indented = true
+                //Indented = true
             };
 
             using (var stream = new System.IO.MemoryStream())
             {
-                using (var writer = new Utf8JsonWriter(stream, options))
+                using (var writer = new Utf8JsonWriter(stream))
                 {
-                    source.WriteAsJSON(writer);
+                    writer.WriteStartObject("HELLO");
+                    writer.WriteEndObject();
+                    //source.WriteAsJSON(writer);
                 }
 
                 string json = Encoding.UTF8.GetString(stream.ToArray());
