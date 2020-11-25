@@ -54,8 +54,19 @@ namespace FoundryCore
         public T Reference<T>(string name){
             return (T)Properties.find(name);
         }
-        public override void WriteAsJSON(Utf8JsonWriter writer) {
-            base.WriteAsJSON(writer);
+        public override void WriteAsJsonStart(Utf8JsonWriter writer) {
+            base.WriteAsJsonStart(writer);
+
+            //properties first
+            Properties?.WriteAsJson(writer);
+            //components first
+            Subcomponents?.WriteAsJson(writer);
+         }
+        public override void WriteAsJsonEnd(Utf8JsonWriter writer) {
+            base.WriteAsJsonEnd(writer);
+        }
+        public  void WnnnriteAsJSON(Utf8JsonWriter writer) {
+            //base.WriteAsJSON(writer);
             writer.WriteStartObject("ccc");
 
                 writer.WriteNumber("age", 15);

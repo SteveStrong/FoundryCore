@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 
+// https://github.com/ashmind/expressive
 namespace FoundryCore
 {
     public interface  IFoProperty {
@@ -32,6 +34,13 @@ namespace FoundryCore
                 _formula = value;
             }
         }
+
+        public Boolean HasFormula
+        {
+            get {
+                return _formula != null;
+            }
+        }
     
         public FoProperty(string name, object value = default)
         {
@@ -49,6 +58,19 @@ namespace FoundryCore
         {
             return Value.ToString();
         }
+
+        public override void WriteAsJsonStart(Utf8JsonWriter writer)
+        {
+            base.WriteAsJsonStart(writer);
+            writer.WriteString("Value",Value.ToString());
+            if ( this.HasFormula ) {
+                writer.WriteString("Formula",this._formula.ToString());
+            }
+        }
+        public override void WriteAsJsonEnd(Utf8JsonWriter writer)
+        {
+            base.WriteAsJsonEnd(writer);
+        } 
     }
 
     

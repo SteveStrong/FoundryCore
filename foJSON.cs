@@ -179,21 +179,8 @@ namespace FoundryCore
             return json;
         }
 
-        public static void WriteAsJson(this object source, Utf8JsonWriter writer) {
-            writer.WriteStartObject();
-            writer.WriteString("account_id", "1234567890");
-            writer.WriteNumber("rate", 1);
-            writer.WriteStartArray("balance");
-            //note: I break it into 2 lines because they're seperated by comma.
-            //If you mean ["GBP":10000] then it is WriteNumber("GBP", 10000)
-            writer.WriteStringValue("GBP");
-            writer.WriteNumberValue(10000);
-            writer.WriteEndArray();
-            writer.WriteBoolean("account_open", true);
-            writer.WriteEndObject();
-        }
 
-        public static string AsJson(this FoBase source) {
+        public static string AsJson(this FoBase source, string name = "") {
             var options = new JsonWriterOptions {
                 Indented = true
             };
@@ -202,8 +189,8 @@ namespace FoundryCore
             using (var writer = new Utf8JsonWriter(stream,options))
             {
                 writer.WriteStartObject();
-                writer.WriteStartObject("model");
-                source.WriteAsJSON(writer);
+                writer.WriteStartObject(name == String.Empty ? "Model": name);
+                source.WriteAsJson(writer);
                 writer.WriteEndObject();
                 writer.WriteEndObject();
 

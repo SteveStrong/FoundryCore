@@ -57,11 +57,19 @@ namespace FoundryCore
         {
             return AsString();
         }
-        public virtual void WriteAsJSON(Utf8JsonWriter writer) {
+        public virtual void WriteAsJson(Utf8JsonWriter writer)
+        {
+            WriteAsJsonStart(writer);
+            WriteAsJsonEnd(writer);
+        }
+
+        public virtual void WriteAsJsonStart(Utf8JsonWriter writer) {
             writer.WriteStartObject(this.MyName);
             writer.WriteString("MyName",this.MyName);
             writer.WriteString("Guid", UniqueID.ToString());
             writer.WriteString("MyType", MyType.ToString());
+        }
+        public virtual void WriteAsJsonEnd(Utf8JsonWriter writer) {;
             writer.WriteEndObject();
         }
         public virtual void ReadFromJSON(JsonElement body) {
