@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace FoundryCore
 {
-
-using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
     //public class FoPropertyManagerConverter: JsonConverter<object>
     //{
     //    public override object Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -184,28 +179,36 @@ using System.Text.Json.Serialization;
             return json;
         }
 
-        public static void exportAsJson(this FoBase source, string path) {
-            var options = new JsonWriterOptions {
-                //Indented = true
-            };
-
-            using (var stream = new System.IO.MemoryStream())
-            {
-                using (var writer = new Utf8JsonWriter(stream))
-                {
-                    writer.WriteStartObject("HELLO");
-                    writer.WriteEndObject();
-                    //source.WriteAsJSON(writer);
-                }
-
-                string json = Encoding.UTF8.GetString(stream.ToArray());
-                Console.WriteLine(json);
-                System.IO.File.WriteAllText(path, json);
-            }
+        public static void WriteAsJson(this object source, Utf8JsonWriter writer) {
+            writer.WriteStartObject();
+            writer.WriteString("account_id", "1234567890");
+            writer.WriteNumber("rate", 1);
+            writer.WriteStartArray("balance");
+            //note: I break it into 2 lines because they're seperated by comma.
+            //If you mean ["GBP":10000] then it is WriteNumber("GBP", 10000)
+            writer.WriteStringValue("GBP");
+            writer.WriteNumberValue(10000);
+            writer.WriteEndArray();
+            writer.WriteBoolean("account_open", true);
+            writer.WriteEndObject();
         }
 
-        public static void saveToFile(this object source, string path) {
-           System.IO.File.WriteAllText(path, source.toJson());
+        public static string AsJson(this FoBase source) {
+            var options = new JsonWriterOptions {
+                Indented = true
+            };
+
+            using var stream = new MemoryStream();
+            using (var writer = new Utf8JsonWriter(stream,options))
+            {
+                source.WriteAsJson(writer);
+            }
+            string json = Encoding.UTF8.GetString(stream.ToArray());
+            return json;
+        }
+
+        public static void saveToFile(this FoBase source, string path) {
+           System.IO.File.WriteAllText(path, source.AsJson());
         }
 
         public static JsonElement readFromFile(string path) {

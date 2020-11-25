@@ -22,38 +22,10 @@ namespace FoundryCore
             var builder = new FoClass(type);
             var root = builder.ConstructInstanceCore("");
 
-            using var stream = new MemoryStream();
-            using (var writer0 = new Utf8JsonWriter(stream))
-            {
-                writer0.WriteStartObject();
-                writer0.WriteString("account_id", "1234567890");
-                writer0.WriteNumber("rate", 1);
-                writer0.WriteStartArray("balance");
-                //note: I break it into 2 lines because they're seperated by comma.
-                //If you mean ["GBP":10000] then it is WriteNumber("GBP", 10000)
-                writer0.WriteStringValue("GBP");
-                writer0.WriteNumberValue(10000);
-                writer0.WriteEndArray();
-                writer0.WriteBoolean("account_open", true);
-                writer0.WriteEndObject();
-            }
-            string json0 = Encoding.UTF8.GetString(stream.ToArray());
-            
-            Console.WriteLine(json0);
-
-
-            // using var stream1 = new MemoryStream();
-            // using (var writer0 = new Utf8JsonWriter(stream1))
-            // {
-            //     writer0.WriteStartObject();
-            //     JsonSerializer.Serialize(writer0, root);
-            //     writer0.WriteEndObject();
-            //     writer0.Flush();
-            // }
 
             Console.WriteLine($"===========================");
-            //Console.WriteLine($"{root.toJson()}");
-            //root.exportAsJson(@"data/test5.json");
+            Console.WriteLine($"{root.AsJson()}");
+            root.saveToFile(@"data/test5.json");
             Console.WriteLine($"..........................");
          }
 
@@ -62,7 +34,7 @@ namespace FoundryCore
             var body = JSONExtensions.readFromFile(@"data/create_root.json");
             var name = body.GetProperty("MyName");
             var root = new FoComponent(name.ToString());
-            root.exportAsJson(@"data/test4.json");
+            root.saveToFile(@"data/test4.json");
 
             var handle = Activator.CreateInstance(root.GetType()) as FoComponent;
             handle.MyName = "ffrfrf";
