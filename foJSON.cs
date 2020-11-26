@@ -188,11 +188,16 @@ namespace FoundryCore
             using var stream = new MemoryStream();
             using (var writer = new Utf8JsonWriter(stream,options))
             {
-                writer.WriteStartObject();
-                writer.WriteStartObject(name == String.Empty ? "Model": name);
-                source.WriteAsJson(writer);
-                writer.WriteEndObject();
-                writer.WriteEndObject();
+                try { 
+                    writer.WriteStartObject();
+                    writer.WriteStartObject(name == String.Empty ? "Model": name);
+                    source.WriteAsJson(writer);
+                    writer.WriteEndObject();
+                    writer.WriteEndObject();
+                } catch (Exception ex)
+                {
+                    //WriteLine(ex.Message);
+                }
 
             }
             string json = Encoding.UTF8.GetString(stream.ToArray());

@@ -1,0 +1,9 @@
+{
+  "Model": {
+    "Comp1": {
+      "MyName": "Comp1",
+      "Guid": "6bb0126e-4d04-4178-ba98-156b6874abb2",
+      "MyType": "FoComponent"
+    }
+  }
+}

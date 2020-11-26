@@ -9,6 +9,27 @@ namespace FoundryCore
 {
     class ComponentTests
     {
+        public static void test7()
+        {
+
+            //var builder = new FoClass("FoComponent");
+            //var root = builder.ConstructInstanceCore("") as FoComponent;
+
+            IFoProperty[] props = {
+                new FoProperty<string>("proper name", "Stephen R. Strong"),
+                new FoProperty<double>("cost", 100),
+                new FoProperty<double>("tax", .33),
+                new FoProperty<double>("total", () => { return 1000; })
+            };
+
+
+            var root = new FoComponent("Comp1", props);
+
+            Console.WriteLine($"===========================");
+            Console.WriteLine($"{root.AsJson()}");
+            root.saveToFile(@"data/test7.json");
+            Console.WriteLine($"..........................");
+         }   
         public static void test6()
         {
   
