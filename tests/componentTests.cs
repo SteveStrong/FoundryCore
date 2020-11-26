@@ -12,8 +12,8 @@ namespace FoundryCore
         public static void test7()
         {
 
-            //var builder = new FoClass("FoComponent");
-            //var root = builder.ConstructInstanceCore("") as FoComponent;
+            var builder = new FoClass("FoComponent");
+            var root = builder.ConstructInstanceCore("") as FoComponent;
 
             IFoProperty[] props = {
                 new FoProperty<string>("proper name", "Stephen R. Strong"),
@@ -21,9 +21,10 @@ namespace FoundryCore
                 new FoProperty<double>("tax", .33),
                 new FoProperty<double>("total", () => { return 1000; })
             };
+            root.Properties.AddList(props);
 
 
-            var root = new FoComponent("Comp1", props);
+            //var root = new FoComponent("Comp1", props);
 
             Console.WriteLine($"===========================");
             Console.WriteLine($"{root.AsJson()}");
@@ -36,25 +37,28 @@ namespace FoundryCore
             var builder = new FoClass("FoComponent");
             var root = builder.ConstructInstanceCore("") as FoComponent;
 
-            IFoProperty[] props = {
+            IFoProperty[] props1 = {
                 new FoProperty<string>("proper name", "Stephen R. Strong"),
-                new FoProperty<double>("cost", 100),
+             };
+
+            IFoProperty[] props2 = {
                 new FoProperty<double>("tax", .33),
                 new FoProperty<double>("total", () => { return 1000; })
             };
 
-            root.Properties.AddList(props);
+
+            root.Properties.AddList(props1);
 
             IFoComponent[] comps = {
-                new FoComponent("Comp1",props ),
-                new FoComponent("Comp2",props ),
-                new FoComponent("Comp3",props ),
+                new FoComponent("Comp1",props2 ),
             };
 
             root.Subcomponents.AddList(comps);
+            var comp = comps[0] as FoComponent;
 
             Console.WriteLine($"===========================");
             Console.WriteLine($"{root.AsJson()}");
+            Console.WriteLine($"{comp.AsJson()}");
             root.saveToFile(@"data/test6.json");
             Console.WriteLine($"..........................");
          }     
