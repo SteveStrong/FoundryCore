@@ -28,6 +28,7 @@ namespace FoundryCore
         public override void WriteAsJson(Utf8JsonWriter writer)
         {
             if (this._components?.Count == 0) return;
+            base.WriteAsJson(writer);
         }
         public override void WriteAsJsonStart(Utf8JsonWriter writer)
         {
