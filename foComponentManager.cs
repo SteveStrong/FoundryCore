@@ -37,12 +37,12 @@ namespace FoundryCore
             writer.WriteStartObject("Subcomponents");
             _components.Values.ToList().ForEach( item => {
                 var child = item as FoBase;
-                writer.WriteStartObject(child.MyName);
-                writer.WriteString("MyName",child.MyName);
-                writer.WriteString("Guid", child.UniqueID.ToString());
-                writer.WriteString("MyType", child.MyType.ToString());
-                //((FoBase)item).WriteAsJson(writer);
-                writer.WriteEndObject();
+                //writer.WriteStartObject(child.MyName);
+                //writer.WriteString("MyName",child.MyName);
+                //writer.WriteString("Guid", child.UniqueID.ToString());
+                //writer.WriteString("MyType", child.MyType.ToString());
+                ((FoBase)item).WriteAsJson(writer);
+                //writer.WriteEndObject();
             });
 
         }
