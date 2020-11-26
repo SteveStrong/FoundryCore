@@ -9,9 +9,9 @@ namespace FoundryCore
 {
     class ComponentTests
     {
-        public static void test6()
+        public static void test7()
         {
-  
+
             var builder = new FoClass("FoComponent");
             var root = builder.ConstructInstanceCore("") as FoComponent;
 
@@ -21,19 +21,44 @@ namespace FoundryCore
                 new FoProperty<double>("tax", .33),
                 new FoProperty<double>("total", () => { return 1000; })
             };
-
             root.Properties.AddList(props);
 
-            IFoComponent[] comps = {
-                new FoComponent("Comp1",props ),
-                new FoComponent("Comp2",props ),
-                new FoComponent("Comp3",props ),
-            };
 
-            root.Subcomponents.AddList(comps);
+            //var root = new FoComponent("Comp1", props);
 
             Console.WriteLine($"===========================");
             Console.WriteLine($"{root.AsJson()}");
+            root.saveToFile(@"data/test7.json");
+            Console.WriteLine($"..........................");
+         }   
+        public static void test6()
+        {
+  
+            var builder = new FoClass("FoComponent");
+            var root = builder.ConstructInstanceCore("") as FoComponent;
+
+            IFoProperty[] props1 = {
+                new FoProperty<string>("proper name", "Stephen R. Strong"),
+             };
+
+            IFoProperty[] props2 = {
+                new FoProperty<double>("tax", .33),
+                new FoProperty<double>("total", () => { return 1000; })
+            };
+
+
+            root.Properties.AddList(props1);
+
+            IFoComponent[] comps = {
+                new FoComponent("Comp1",props2 ),
+            };
+
+            root.Subcomponents.AddList(comps);
+            var comp = comps[0] as FoComponent;
+
+            Console.WriteLine($"===========================");
+            Console.WriteLine($"{root.AsJson()}");
+            Console.WriteLine($"{comp.AsJson()}");
             root.saveToFile(@"data/test6.json");
             Console.WriteLine($"..........................");
          }     

@@ -1,0 +1,36 @@
+{
+  "Model": {
+    "FoClass_0001": {
+      "MyName": "FoClass_0001",
+      "Guid": "2f0811cf-7c17-41fc-8a80-7cf07c84f3ce",
+      "MyType": "FoComponent",
+      "Properties": {
+        "proper name": {
+          "MyName": "proper name",
+          "Guid": "a74048c0-4023-4606-81c6-701b2fd4d183",
+          "MyType": "FoProperty::String",
+          "Value": "Stephen R. Strong"
+        },
+        "cost": {
+          "MyName": "cost",
+          "Guid": "13ac906a-3957-4a79-901d-8fce7f54cc54",
+          "MyType": "FoProperty::Double",
+          "Value": "100"
+        },
+        "tax": {
+          "MyName": "tax",
+          "Guid": "6df58add-2f37-423b-961f-da489adf0b07",
+          "MyType": "FoProperty::Double",
+          "Value": "0.33"
+        },
+        "total": {
+          "MyName": "total",
+          "Guid": "e34f8386-0eb8-4f43-961f-5dfaba9b879a",
+          "MyType": "FoProperty::Double",
+          "Value": "1000",
+          "Formula": "System.Func\u00601[System.Double]"
+        }
+      }
+    }
+  }
+}
