@@ -46,7 +46,6 @@ namespace FoundryCore
 			_Lexer.PutToken(new Token( TokenClass.REFERENCE, TokenID.IDENTIFIER, sText));
 			return ReadFactor();
 		}
-
 		public Operator ReadFactor()
 		{
 			Token oTok;
@@ -166,7 +165,6 @@ namespace FoundryCore
 			}
 			return obj;
 		}
-
 		public Operator ReadFunction()
 		{
 			Token oTok;
@@ -853,14 +851,14 @@ namespace FoundryCore
 			try 
 			{
 				ClearLeadingAndOR();
-				Operator op = ReadLogicalOr();
+				var op = ReadLogicalOr();
 				CheckThatBufferIsEmpty();
 				return op;
 			}
-			catch(ApprenticeSyntaxException eSyntax)
-			{
-				throw(eSyntax);
-			}
+			// catch(ApprenticeSyntaxException eSyntax)
+			// {
+			// 	throw(eSyntax);
+			// }
 			catch(Exception e)
 			{
 				ApprenticeObject.ReportException(e);
@@ -876,9 +874,14 @@ namespace FoundryCore
 				Operator op = ReadLogicalOr();
 				return op;
 			}
-			catch(ApprenticeSyntaxException eSyntax)
+			// catch(ApprenticeSyntaxException eSyntax)
+			// {
+			// 	throw eSyntax;
+			// }
+			catch(Exception e)
 			{
-				throw eSyntax;
+				ApprenticeObject.ReportException(e);
+				return null;
 			}
 		}
 		public string BufferConsumed()

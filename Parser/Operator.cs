@@ -1,12 +1,23 @@
+using System;
+using System.Text;
+using System.IO;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+
 namespace FoundryCore
 {
     public class Operator
     {
+        public string Name { get; set; }
+        public List<Operator> Children = new List<Operator>();
         public Operator(string name)
         {
+            Name = name;
         }       
         public void AddChildObject(Operator child) 
         {
+            Children.Add(child);
         }
     }
     public class Constant : Operator
