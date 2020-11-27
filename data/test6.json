@@ -2,12 +2,12 @@
   "Model": {
     "FoClass_0001": {
       "MyName": "FoClass_0001",
-      "Guid": "51a1e233-7cdd-4927-8acc-c457fc2b5a2d",
+      "Guid": "2fc777bd-a028-4731-a48a-cbf9680c016f",
       "MyType": "FoComponent",
       "Properties": {
         "proper name": {
           "MyName": "proper name",
-          "Guid": "1ba888f2-1854-49fc-8a17-3b208b0b46b2",
+          "Guid": "e7c7f94f-625c-435e-8d26-851a8972965f",
           "MyType": "FoProperty::String",
           "Value": "Stephen R. Strong"
         }
@@ -15,18 +15,18 @@
       "Subcomponents": {
         "Comp1": {
           "MyName": "Comp1",
-          "Guid": "f8ee13ce-fa63-4cdd-8d4c-49cff4dd9a0f",
+          "Guid": "8cb4b6bd-a3eb-41ff-a1b6-fa815c8e5c5f",
           "MyType": "FoComponent",
           "Properties": {
             "tax": {
               "MyName": "tax",
-              "Guid": "002899a5-e15b-4491-9170-ca3e0f3aa35e",
+              "Guid": "1c36fa18-6726-4a79-8e5e-c5ae7b62467e",
               "MyType": "FoProperty::Double",
               "Value": "0.33"
             },
             "total": {
               "MyName": "total",
-              "Guid": "a058fd0f-21be-49ca-a363-70ea5eaeef2a",
+              "Guid": "e037a5c0-b1ad-41cf-b944-7bb347db1bbf",
               "MyType": "FoProperty::Double",
               "Value": "1000",
               "Formula": "System.Func\u00601[System.Double]"
