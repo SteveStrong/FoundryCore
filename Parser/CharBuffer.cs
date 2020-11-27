@@ -7,78 +7,78 @@ namespace FoundryCore
 {
 	public class CharBuffer 
 	{
-		private string m_sCode;
-		private int[] m_iBuffer;
-		private int m_iDepth;
-		private int m_iPos;
+		private string _Code;
+		private int[] _Buffer;
+		private int _Depth;
+		private int _Pos;
 		
 		public CharBuffer(StreamReader sr, int depth) 
 		{
-			m_iBuffer = new int[depth];	
+			_Buffer = new int[depth];	
 			// file to string
-			m_sCode = sr.ReadToEnd();		
-			m_iDepth = (depth > m_sCode.Length ? m_sCode.Length : depth);				
+			_Code = sr.ReadToEnd();		
+			_Depth = (depth > _Code.Length ? _Code.Length : depth);				
 			SetPos(0);
 		}
 		
 		public CharBuffer(string s, int depth) 
 		{
-			m_iBuffer = new int[depth];	
+			_Buffer = new int[depth];	
 			// file to string
-			m_sCode = s;		
-			m_iDepth = (depth > m_sCode.Length ? m_sCode.Length : depth);				
+			_Code = s;		
+			_Depth = (depth > _Code.Length ? _Code.Length : depth);				
 			SetPos(0);
 		}
 		
 		public string Buffer()
 		{
-			return m_sCode;
+			return _Code;
 		}
 		public string BufferConsumed()
 		{
-			return m_sCode.Substring(0,m_iPos);
+			return _Code.Substring(0,_Pos);
 		}
 		public string BufferToRead()
 		{
-			return m_sCode.Substring(m_iPos);
+			return _Code.Substring(_Pos);
 		}
 		public int GetPos() 
 		{ 		
 			// first symbol in buffer accordance ipos==2 
-			return (m_iPos-2); 
+			return (_Pos-2); 
 		}		
 		public void SetPos(int index)	
 		{
 			try
 			{
-				m_iPos = index;
-				m_iBuffer[m_iDepth-1] = m_sCode[m_iPos++];
+				_Pos = index;
+				_Buffer[_Depth-1] = _Code[_Pos++];
 			}
 			catch {}
 		}	
 		
 		public int LA(int i) 
 		{
-			if ( i >= 1 && i <= m_iDepth ) {
-				return m_iBuffer[i-1];
+			if ( i >= 1 && i <= _Depth ) {
+				return _Buffer[i-1];
 			}
 			return 0;
 		}
 		
 		public void Consume() 
 		{
-			for(int i=0; i<m_iDepth-1; i++) {
+			for(int i=0; i<_Depth-1; i++) {
 			    // oldvalue = newvalue
-				m_iBuffer[i] = m_iBuffer[i+1];
+				_Buffer[i] = _Buffer[i+1];
 			}
 			try {
 				// set new value
-				if (m_iPos == m_sCode.Length) {
+				if (_Pos == _Code.Length) {
 					// read next symbol frm buffer
 					// end buffers
-					m_iBuffer[m_iDepth-1] = 0;
+					_Buffer[_Depth-1] = 0;
 				} else {
-					m_iBuffer[m_iDepth-1] = m_sCode[m_iPos++];
+					_Buffer[_Depth-1] = _Code[_Pos++];
 				}
 				
 			} 

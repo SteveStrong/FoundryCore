@@ -3,12 +3,13 @@ using System.IO;
 
 namespace FoundryCore
 {
-	/// <summary>
-	/// Summary description for Parser.
-	/// </summary>
-	public class Parser
+
+    /// <summary>
+    /// Summary description for Parser.
+    /// </summary>
+    public class Parser
 	{
-		private Lexer m_oLexer; 
+		private Lexer _Lexer; 
 		public bool OnlyLiterials = false;
 		public bool AsConstraints = false;
 		public bool AsFilters = false;
@@ -17,15 +18,16 @@ namespace FoundryCore
 		public Parser(string sBuffer)
 		{
 			//DebugTrace("Parser",sBuffer);
-			m_oLexer = new Lexer(sBuffer);
+			_Lexer = new Lexer(sBuffer);
 		}
 		public Parser(StreamReader fStream)
 		{
-			m_oLexer = new Lexer(fStream);
+			_Lexer = new Lexer(fStream);
 		}
+
 		public Operator LiteralOrReference(string sText)
 		{
-			Token oNextTok = m_oLexer.PeekToken();
+			Token oNextTok = _Lexer.PeekToken();
 
 			if ( oNextTok == null )
 				return new Literal(sText,sText);
@@ -41,36 +43,17 @@ namespace FoundryCore
 			}
 
 			sText = sText.Replace("'","");
-			m_oLexer.PutToken(new Token( TokenClass.REFERENCE, TokenID.IDENTIFIER, sText));
+			_Lexer.PutToken(new Token( TokenClass.REFERENCE, TokenID.IDENTIFIER, sText));
 			return ReadFactor();
 		}
-//		public void ReadUnits(Operator oParent)
-//		{
-//			Token oTok = m_oLexer.GetToken();
-//
-//			if ( oTok == null ) 
-//				return;
-//
-//			if (oTok.ID != TokenID.IDENTIFIER) 
-//				goto UnitsNotFound;
-//
-//			string sText = oTok.Text.ToLower(); 
-//
-//			if (sText.Equals("in")) return;
-//			if (sText.Equals("inch")) return;
-//			if (sText.Equals("inches")) return;
-//			if (sText.Equals("mm")) return;
-//
-//		UnitsNotFound:
-//			m_oLexer.PutToken(oTok);
-//		}
+
 		public Operator ReadFactor()
 		{
 			Token oTok;
 			string sText;
 			Operator obj;
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 			if ( oTok == null )
 				ArgumentExpectedError("Token not found");
 
@@ -125,28 +108,28 @@ namespace FoundryCore
 //					break;
 
 				case TokenID.LPAREN:
-					m_oLexer.PutToken(oTok);
+					_Lexer.PutToken(oTok);
 					obj = ReadGroup();
 					break;
 
 				case TokenID.LBRACE:
-					m_oLexer.PutToken(oTok);
+					_Lexer.PutToken(oTok);
 					obj = ReadSet();
 					break;
 
 				case TokenID.FUNCTION:
-					m_oLexer.PutToken(oTok);
+					_Lexer.PutToken(oTok);
 					obj = ReadFunction();
 					break;
 
 				case TokenID.LBRACK:
-					m_oLexer.PutToken(oTok);
+					_Lexer.PutToken(oTok);
 					obj = ReadFieldReference();
 					break;
 
 				case TokenID.ATSIGN:
 				case TokenID.QUESTIONMARK:
-					m_oLexer.PutToken(oTok);
+					_Lexer.PutToken(oTok);
 					obj = ReadEvaluatedComponentReference();
 					break;
 
@@ -157,10 +140,10 @@ namespace FoundryCore
 					} 
 					else if ( OnlyLiterials == false)
 					{
-						m_oLexer.PutToken(oTok);
+						_Lexer.PutToken(oTok);
 						obj = ReadEvaluatedValueReference();
 					} 
-					else if ( IsNumber(sText) == true )
+					else if ( Common.IsNumber(sText) == true )
 					{
 						obj = new Constant(sText, System.Convert.ToDouble(sText) );
 					}
@@ -172,7 +155,7 @@ namespace FoundryCore
 				default:
 					switch (oTok.Class) {
 						case TokenClass.CONTROL: 
-							m_oLexer.PutToken(oTok);
+							_Lexer.PutToken(oTok);
 							obj = ReadControl();
 							break;
 						default:
@@ -189,34 +172,34 @@ namespace FoundryCore
 			Token oTok;
 			Operator obj, obj1;
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.FUNCTION) 
 				return null;
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 			obj = new FunctionOperator(oTok.Text);
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.LPAREN )
 				MissingItemError("ReadFunction","(");
 			else
-				m_oLexer.GetToken(); //Consume (
+				_Lexer.GetToken(); //Consume (
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 			while ( oTok != null && oTok.ID != TokenID.RPAREN) 
 			{
 
-				m_oLexer.PutToken(oTok);
+				_Lexer.PutToken(oTok);
 				obj1 = ReadArgument();
 
 				if ( obj1 == null) 
 					ArgumentExpectedError("ReadFunction");
 
 				obj.AddChildObject(obj1);
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 
 				if ( oTok != null && oTok.ID == TokenID.COMMA )
-					oTok = m_oLexer.GetToken();
+					oTok = _Lexer.GetToken();
 			}
 
 			return obj;		
@@ -229,27 +212,27 @@ namespace FoundryCore
 
 			obj = new FunctionOperator(oFunctionTok.Text);
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.LPAREN )
 				MissingItemError("ReadEvaluation","(");
 			else
-				m_oLexer.GetToken(); //Consume (
+				_Lexer.GetToken(); //Consume (
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 			while ( oTok != null && oTok.ID != TokenID.RPAREN) 
 			{
 
-				m_oLexer.PutToken(oTok);
+				_Lexer.PutToken(oTok);
 				obj1 = ReadArgument();
 
 				if ( obj1 == null) 
 					ArgumentExpectedError("ReadEvaluation");
 
 				obj.AddChildObject(obj1);
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 
 				if ( oTok != null && oTok.ID == TokenID.COMMA )
-					oTok = m_oLexer.GetToken();
+					oTok = _Lexer.GetToken();
 			}
 
 			return obj;		
@@ -259,11 +242,11 @@ namespace FoundryCore
 			Token oTok;
 			Operator obj;
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.Class != TokenClass.CONTROL) 
 				return null;
 			else
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 
 			switch (oTok.ID)
 			{
@@ -293,11 +276,11 @@ namespace FoundryCore
 			Token oTok;
 			Operator obj1;
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.LPAREN )
 				MissingItemError("ReadInlineIf","(");
 			else
-				m_oLexer.GetToken(); // consume (
+				_Lexer.GetToken(); // consume (
 
 			obj1 = ReadArgument(); //This is the TEST part
 			if ( obj1 == null) 
@@ -305,11 +288,11 @@ namespace FoundryCore
 
 			obj.AddChildObject(obj1);
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.COMMA )
 				MissingItemError("ReadInlineIf",",");
 			else
-				m_oLexer.GetToken(); // consule ,
+				_Lexer.GetToken(); // consule ,
 
 			obj1 = ReadArgument(); //This is the TRUE part
 			if ( obj1 == null) 
@@ -317,11 +300,11 @@ namespace FoundryCore
 
 			obj.AddChildObject(obj1);
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.COMMA )
 				MissingItemError("ReadInlineIf",",");
 			else
-				m_oLexer.GetToken(); //Consume ,
+				_Lexer.GetToken(); //Consume ,
 
 			obj1 = ReadArgument(); //This is the FALSE part
 			if ( obj1 == null) 
@@ -329,10 +312,10 @@ namespace FoundryCore
 
 			obj.AddChildObject(obj1);
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 			if ( oTok != null && oTok.ID != TokenID.RPAREN )
 			{
-				m_oLexer.PutToken(oTok);
+				_Lexer.PutToken(oTok);
 				MissingItemError("ReadInlineIf",")");
 			}
 
@@ -343,11 +326,11 @@ namespace FoundryCore
 			Token oTok;
 			Operator obj1;
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.LPAREN )
 				MissingItemError("ReadInlineIf3","(");
 			else
-				m_oLexer.GetToken(); // consume (
+				_Lexer.GetToken(); // consume (
 
 			obj1 = ReadArgument(); //This is the TEST part
 			if ( obj1 == null) 
@@ -355,11 +338,11 @@ namespace FoundryCore
 
 			obj.AddChildObject(obj1);
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.COMMA )
 				MissingItemError("ReadInlineIf3",",");
 			else
-				m_oLexer.GetToken(); // consule ,
+				_Lexer.GetToken(); // consule ,
 
 			obj1 = ReadArgument(); //This is the TRUE part
 			if ( obj1 == null) 
@@ -367,11 +350,11 @@ namespace FoundryCore
 
 			obj.AddChildObject(obj1);
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.COMMA )
 				MissingItemError("ReadInlineIf3",",");
 			else
-				m_oLexer.GetToken(); //Consume ,
+				_Lexer.GetToken(); //Consume ,
 
 			obj1 = ReadArgument(); //This is the Null part
 			if ( obj1 == null) 
@@ -379,11 +362,11 @@ namespace FoundryCore
 
 			obj.AddChildObject(obj1);
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.COMMA )
 				MissingItemError("ReadInlineIf3",",");
 			else
-				m_oLexer.GetToken(); //Consume ,
+				_Lexer.GetToken(); //Consume ,
 
 			obj1 = ReadArgument(); //This is the FALSE part
 			if ( obj1 == null) 
@@ -391,10 +374,10 @@ namespace FoundryCore
 
 			obj.AddChildObject(obj1);
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 			if ( oTok != null && oTok.ID != TokenID.RPAREN )
 			{
-				m_oLexer.PutToken(oTok);
+				_Lexer.PutToken(oTok);
 				MissingItemError("ReadInlineIf3",")");
 			}
 
@@ -406,11 +389,11 @@ namespace FoundryCore
 			Token oTok;
 			Operator obj1;
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.LPAREN )
 				MissingItemError("ReadSwitch","(");
 			else
-				m_oLexer.GetToken(); // consume (
+				_Lexer.GetToken(); // consume (
 
 			obj1 = ReadArgument(); //This is the switch
 			if ( obj1 == null) 
@@ -418,11 +401,11 @@ namespace FoundryCore
 
 			obj.AddChildObject(obj1);
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.COMMA )
 				MissingItemError("ReadSwitch",",");
 			else
-				m_oLexer.GetToken(); // consule ,
+				_Lexer.GetToken(); // consule ,
 
 			obj1 = ReadArgument(); //This is the case
 			if ( obj1 == null) 
@@ -431,10 +414,10 @@ namespace FoundryCore
 			obj.AddChildObject(obj1);
 
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 			if ( oTok != null && oTok.ID != TokenID.RPAREN )
 			{
-				m_oLexer.PutToken(oTok);
+				_Lexer.PutToken(oTok);
 				MissingItemError("ReadSwitch",")");
 			}
 
@@ -446,26 +429,26 @@ namespace FoundryCore
 			Token oTok;
 			Operator obj1;
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok != null && oTok.ID != TokenID.LPAREN )
 				MissingItemError("ReadCase","(");
 			else
-				m_oLexer.GetToken(); // consume (
+				_Lexer.GetToken(); // consume (
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 			while ( oTok != null && oTok.ID != TokenID.RPAREN) 
 			{
-				m_oLexer.PutToken(oTok);
+				_Lexer.PutToken(oTok);
 				obj1 = ReadArgument();
 
 				if ( obj1 == null) 
 					ArgumentExpectedError("ReadAList");
 
 				obj.AddChildObject(obj1);
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 
 				if ( oTok != null && oTok.ID == TokenID.COMMA )
-					oTok = m_oLexer.GetToken();
+					oTok = _Lexer.GetToken();
 			}
 			return obj;		
 		}
@@ -476,7 +459,7 @@ namespace FoundryCore
 
 			obj1 = obj = ReadFactor();
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 
 			while ( oTok != null && oTok.Class == TokenClass.MULT)
 			{
@@ -492,25 +475,25 @@ namespace FoundryCore
 					
 				obj.AddChildObject(obj2);
 				obj1 = obj;
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 			}
-			m_oLexer.PutToken(oTok);
+			_Lexer.PutToken(oTok);
 
 			return obj;		
 		}
 		public Operator ReadFieldReference()
 		{
-			Token oTok = m_oLexer.GetToken();
+			Token oTok = _Lexer.GetToken();
 			if ( oTok == null )
 				return null;
 
 			if ( oTok.ID != TokenID.LBRACK )
 			{
-				m_oLexer.PutToken(oTok);
+				_Lexer.PutToken(oTok);
 				return null;
 			}
 
-			string sName = m_oLexer.ReadUntil(']');
+			string sName = _Lexer.ReadUntil(']');
 			return new FieldReference(sName);
 		}
 
@@ -518,12 +501,12 @@ namespace FoundryCore
 		public Operator ReadRemainingReference (Operator oRef)
 		{
 			Operator oOp = null;
-			Token oTok = m_oLexer.GetToken();
+			Token oTok = _Lexer.GetToken();
 
 			while ( oTok != null && (oTok.ID == TokenID.PERIOD || oTok.ID == TokenID.LBRACK))
 			{
 				bool bIndex = (oTok.ID == TokenID.LBRACK);
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 				if ( oTok == null )
 					return oRef;
 
@@ -537,13 +520,13 @@ namespace FoundryCore
 						if ( bIndex )
 						{
 							oOp = new IndexReference(oTok.Text);
-							oTok = m_oLexer.GetToken();
+							oTok = _Lexer.GetToken();
 							if ( oTok.ID != TokenID.RBRACK )
 								ArgumentExpectedError("ReadReference");
 						}
 						else
 						{
-							oOp = new ComponentReference(UnwrapSQ(oTok.Text));
+							oOp = new ComponentReference(Common.UnwrapSQ(oTok.Text));
 						}
 						break;
 					default:
@@ -551,9 +534,9 @@ namespace FoundryCore
 						break;
 				}	
 				oRef.AddChildObject(oOp);
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 			}
-			m_oLexer.PutToken(oTok);
+			_Lexer.PutToken(oTok);
 
 			return oRef;
 		}
@@ -564,17 +547,17 @@ namespace FoundryCore
 			Operator oRef;
 			Token oTok, oNextTok;
 
-			oTok = m_oLexer.PeekToken();
+			oTok = _Lexer.PeekToken();
 			if ( oTok == null || oTok.Class != TokenClass.REFERENCE)
 				return null;
 			else
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 
 			//loop to construct an evaluating reference
 			//that includes properties, and function references
 			//Add these elements to the value reference as a tree...
 
-			oNextTok = m_oLexer.PeekToken();
+			oNextTok = _Lexer.PeekToken();
 			if ( oNextTok == null )
 				oRef = new ValueReference(oTok.Text);
 			else
@@ -584,15 +567,15 @@ namespace FoundryCore
 					case TokenID.SHARP:
 					case TokenID.QUESTIONMARK:
 						IDRefType = oNextTok.ID;
-						oNextTok = m_oLexer.GetToken();
+						oNextTok = _Lexer.GetToken();
 						oRef = new ValueAtReference(oTok.Text,(char)oNextTok.Text[0]);
 
-						oTok = m_oLexer.PeekToken();
+						oTok = _Lexer.PeekToken();
 						if ( oTok != null && oTok.ID != TokenID.PERIOD)
 							if ( oTok.ID == TokenID.LPAREN || 
 								oTok.ID == TokenID.FUNCTION || 
 								oTok.Class == TokenClass.REFERENCE )
-								m_oLexer.PutToken(new Token(TokenClass.REFERENCE,TokenID.PERIOD, "."));
+								_Lexer.PutToken(new Token(TokenClass.REFERENCE,TokenID.PERIOD, "."));
 						break;
 					default:
 						oRef = new ValueReference(oTok.Text);
@@ -607,7 +590,7 @@ namespace FoundryCore
 			Operator oRef;
 			Token oTok, oControlTok;
 
-			oControlTok = m_oLexer.GetToken();
+			oControlTok = _Lexer.GetToken();
 			if ( oControlTok == null)
 				return null;
 
@@ -616,19 +599,19 @@ namespace FoundryCore
 				case TokenID.ATSIGN:
 				case TokenID.SHARP:
 				case TokenID.QUESTIONMARK:
-					oTok = m_oLexer.GetToken();
-					string sTok = oTok != null ? UnwrapSQ(oTok.Text) : "";
+					oTok = _Lexer.GetToken();
+					string sTok = oTok != null ? Common.UnwrapSQ(oTok.Text) : "";
 					oRef = new ComponentAtReference(sTok,(char)oControlTok.Text[0]);
 					break;
 				case TokenID.LBRACK:
-					oTok = m_oLexer.GetToken();  //this is the [
-					oRef = new FieldReference(UnwrapSQ(oTok.Text));
-					oTok = m_oLexer.GetToken();
+					oTok = _Lexer.GetToken();  //this is the [
+					oRef = new FieldReference(Common.UnwrapSQ(oTok.Text));
+					oTok = _Lexer.GetToken();
 					if ( oTok.ID != TokenID.RBRACK )
 						ArgumentExpectedError("ReadEvaluatedComponentReference");
 					break;
 				default:
-					m_oLexer.PutToken(oControlTok);
+					_Lexer.PutToken(oControlTok);
 					return null;
 			}
 
@@ -643,10 +626,10 @@ namespace FoundryCore
 			obj1 = obj = ReadTerm();
 
 			//looking for the 7+-236.5 case
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 			if ( oTok != null && oTok.Class == TokenClass.LITERIAL && oTok.Text.StartsWith("-") )
 			{
-				m_oLexer.PutToken(oTok);
+				_Lexer.PutToken(oTok);
 				oTok = new Token(TokenClass.SUM, TokenID.PLUS, "+" );
 			}
 
@@ -664,9 +647,9 @@ namespace FoundryCore
 
 				obj.AddChildObject(obj2);
 				obj1 = obj;
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 			}
-			m_oLexer.PutToken(oTok);
+			_Lexer.PutToken(oTok);
 			return obj;	
 		}
 
@@ -678,7 +661,7 @@ namespace FoundryCore
 
 			obj1 = obj = ReadExpression();
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 
 			while ( oTok != null && oTok.Class == TokenClass.COMPARE)
 			{
@@ -694,9 +677,9 @@ namespace FoundryCore
 
 				obj.AddChildObject(obj2);
 				obj1 = obj;
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 			}
-			m_oLexer.PutToken(oTok);
+			_Lexer.PutToken(oTok);
 
 			return obj;	
 		}
@@ -705,7 +688,7 @@ namespace FoundryCore
 			Token oTok;
 			Operator obj, obj1;
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 
 			obj = null;
 			if ( oTok != null && oTok.ID != TokenID.LBRACE)
@@ -716,10 +699,10 @@ namespace FoundryCore
 			else
 				obj = new ValidValues("ValidValues");
 			
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 			while ( oTok != null && oTok.ID != TokenID.RBRACE)
 			{
-				m_oLexer.PutToken(oTok);
+				_Lexer.PutToken(oTok);
 				obj1 = null;
 
 				if (OnlyLiterials == false)
@@ -729,15 +712,15 @@ namespace FoundryCore
 
 				obj.AddChildObject(obj1);
 
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 				if ( oTok != null && oTok.ID != TokenID.COMMA)
 				{
-					m_oLexer.PutToken(oTok);
+					_Lexer.PutToken(oTok);
 					if ( oTok.ID != TokenID.RBRACE ) 
 						MissingItemError("ReadSet",",");
 				}
 
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 			}
 			return obj;		
 		}
@@ -746,7 +729,7 @@ namespace FoundryCore
 			Token oTok;
 			Operator obj, obj1;
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 
 			obj = null;
 			if ( oTok != null && oTok.ID  == TokenID.LPAREN)
@@ -757,7 +740,7 @@ namespace FoundryCore
 					ArgumentExpectedError("ReadGroup LHS");
 
 				obj.AddChildObject(obj1);
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 				if ( oTok == null || oTok.ID != TokenID.RPAREN)
 					MissingItemError("ReadGroup RHS",")");
 
@@ -771,7 +754,7 @@ namespace FoundryCore
 	
 			obj1 = obj = ReadOperation();
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 
 			while ( oTok != null && oTok.ID == TokenID.AND ) 
 			{
@@ -787,9 +770,9 @@ namespace FoundryCore
 
 				obj.AddChildObject(obj2);
 				obj1 = obj;
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 			}
-			m_oLexer.PutToken(oTok);
+			_Lexer.PutToken(oTok);
 
 			return obj;
 		}
@@ -801,7 +784,7 @@ namespace FoundryCore
 	
 			obj1 = obj = ReadLogicalAnd();
 
-			oTok = m_oLexer.GetToken();
+			oTok = _Lexer.GetToken();
 
 			while ( oTok != null && oTok.ID == TokenID.OR  ) 
 			{
@@ -817,9 +800,9 @@ namespace FoundryCore
 
 				obj.AddChildObject(obj2);
 				obj1 = obj;
-				oTok = m_oLexer.GetToken();
+				oTok = _Lexer.GetToken();
 			}
-			m_oLexer.PutToken(oTok);
+			_Lexer.PutToken(oTok);
 
 			return obj;
 		}
@@ -853,7 +836,7 @@ namespace FoundryCore
 		}
 		private void ClearLeadingAndOR()
 		{
-			Token oTok = m_oLexer.GetToken();
+			Token oTok = _Lexer.GetToken();
 			if ( oTok != null )
 				switch ( oTok.ID )
 				{
@@ -861,7 +844,7 @@ namespace FoundryCore
 					case TokenID.OR:
 						break;
 					default:
-						m_oLexer.PutToken(oTok);
+						_Lexer.PutToken(oTok);
 						break;
 				}
 		}
@@ -900,11 +883,11 @@ namespace FoundryCore
 		}
 		public string BufferConsumed()
 		{
-			return m_oLexer.BufferConsumed();
+			return _Lexer.BufferConsumed();
 		}
 		public bool CheckThatBufferIsEmpty()
 		{
-			Token oTok = m_oLexer.GetToken();
+			Token oTok = _Lexer.GetToken();
 
 			if ( oTok == null )
 				return false;

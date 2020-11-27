@@ -7,7 +7,15 @@ using System.Text.Json.Serialization;
 
 namespace FoundryCore
 {
-
+    public class ApprenticeObject
+    {
+        public static bool ReportException(Exception eException)
+        {
+            //ThrowApprenticeAbort(eException);
+            //return ReportException(eException, "");
+            return true;
+        }
+    }
     public class FoBase
     {
         

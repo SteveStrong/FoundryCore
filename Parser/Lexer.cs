@@ -3,6 +3,7 @@ using System;
 using System.Text;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace FoundryCore 
@@ -118,93 +119,82 @@ namespace FoundryCore
 	}
 	public class Token 
 	{
-		private string m_sText;
-		private TokenID m_ID;
-		private TokenClass m_Class;
+		private string _Text;
+		private TokenID _ID;
+		private TokenClass _Class;
 
 		// constructor
 		public Token(TokenClass Class, TokenID ID, string sText) 
 		{
-			m_ID = ID;
-			m_Class = Class;
-			m_sText = sText;
+			_ID = ID;
+			_Class = Class;
+			_Text = sText;
 		}
 		public string Text {
-			get { return ( m_sText ); }
-			set { m_sText = value; }
+			get { return ( _Text ); }
+			set { _Text = value; }
 		}
 		public TokenID ID {
-			get { return ( m_ID ); }
-			set { m_ID = value; }
+			get { return ( _ID ); }
+			set { _ID = value; }
 		}
 		public TokenClass Class 
 		{
-			get { return ( m_Class ); }
-			set { m_Class = value; }
+			get { return ( _Class ); }
+			set { _Class = value; }
 		}
 	} 
 	
-	public class Lexer : ApprenticeObject
+	public class Lexer
 	{
-		static ApprenticeHash m_oTokens = null;
-
+		static Dictionary<string,TokenID> _TokenName = new Dictionary<string,TokenID>();
+ 		static Dictionary<TokenID,TokenClass> _TokenClass = new Dictionary<TokenID,TokenClass>();
+ 
 		private const int LOOKAHEAD_DEPTH = 1;
-		private CharBuffer m_oInput;
-		private Stack m_oStack = new Stack();
-		private char m_currentchar;
+		private CharBuffer _Input;
+		private Stack _Stack = new Stack();
+		private char _CurrentChar;
 		
 		public Lexer( StreamReader f ) 
 		{
-			m_oInput = new CharBuffer(f,LOOKAHEAD_DEPTH);
+			_Input = new CharBuffer(f,LOOKAHEAD_DEPTH);
 			InitHash();
 			//Console.WriteLine("pos ={0}",getPos());
 		}
 		
 		public Lexer( string s ) 
 		{
-			m_oInput = new CharBuffer(s,LOOKAHEAD_DEPTH);
+			_Input = new CharBuffer(s,LOOKAHEAD_DEPTH);
 			InitHash();
-		}
-		public override void Purge()
-		{
-			m_oStack.Clear();
-			m_oStack  = null;
-			m_oInput = null;
-			base.Purge ();
 		}
 
 		public string Buffer()
 		{
-			return m_oInput.Buffer();
+			return _Input.Buffer();
 		}
 		public string BufferConsumed()
 		{
-			return m_oInput.BufferConsumed();
+			return _Input.BufferConsumed();
 		}
 		public string BufferToRead()
 		{
-			return m_oInput.BufferToRead();
+			return _Input.BufferToRead();
 		}
-		private int LA ( int i ) { return m_oInput.LA(i); }
-		public void Consume() { m_oInput.Consume(); }
+		private int LA ( int i ) { return _Input.LA(i); }
+		public void Consume() { _Input.Consume(); }
 		private void Match ( int c ) { Consume();}
 		
-		public int GetPos() { return m_oInput.GetPos(); }
-		public void SetPos(int i) { m_oInput.SetPos(i); }
+		public int GetPos() { return _Input.GetPos(); }
+		public void SetPos(int i) { _Input.SetPos(i); }
 	
 		public static void AddTok(TokenID i, string s, TokenClass c)
 		{
-			m_oTokens.Add(s, i);
-			m_oTokens.Add(i, c);
+			_TokenName.Add(s, i);
+			_TokenClass.Add(i, c);
 		}
 
-		private ApprenticeHash InitHash()
+		private void InitHash()
 		{
-			if ( m_oTokens != null) 
-				return m_oTokens;
-
-			m_oTokens = new ApprenticeHash(50);
-
 			AddTok(TokenID.EQUALS,		"equals",			TokenClass.COMPARE);
 			AddTok(TokenID.NOTEQUALTO,	"notequalto",		TokenClass.COMPARE);
 			AddTok(TokenID.GREATER,		"greaterthan",		TokenClass.COMPARE);
@@ -255,14 +245,12 @@ namespace FoundryCore
 			AddTok(TokenID.BREAK,		"break",	TokenClass.CONTROL);
 			AddTok(TokenID.CONTINUE,	"continue", TokenClass.CONTROL);
 			AddTok(TokenID.RETURN,		"return",	TokenClass.CONTROL);
-
-			return m_oTokens;
 		}
 
 		public void PutToken(Token oTok) 
 		{
 			if ( oTok != null )
-				m_oStack.Push(oTok);
+				_Stack.Push(oTok);
 		}
 
 		public Token PeekToken() 
@@ -287,15 +275,15 @@ namespace FoundryCore
 		{
 			Token oReturnValue = null;
 
-			if (m_oStack.Count != 0 ) 
-				return (Token)m_oStack.Pop();
+			if (_Stack.Count != 0 ) 
+				return (Token)_Stack.Pop();
 
 			char c = RemoveWhiteSpace();  //Eat up all the white spaces
 
-			m_currentchar = c;
+			_CurrentChar = c;
 
 			Consume();				
-			switch ( m_currentchar ) {
+			switch ( _CurrentChar ) {
 				case (char)0:
 					break;
 				case (char)8220:
@@ -424,9 +412,9 @@ namespace FoundryCore
 					oReturnValue = Identifier();
 					break;
 				default:
-					if(char.IsNumber(m_currentchar))
+					if(char.IsNumber(_CurrentChar))
 						oReturnValue = RealNumber();
-					else if(char.IsLetter(m_currentchar))
+					else if(char.IsLetter(_CurrentChar))
 						oReturnValue = Identifier();
 					break;
 			} 
@@ -437,7 +425,7 @@ namespace FoundryCore
 		private Token Identifier() 
 		{
 			StringBuilder sString = new StringBuilder();
-			sString.Append( m_currentchar );
+			sString.Append( _CurrentChar );
 
 			char c = (char)LA(1);
 			while( char.IsLetterOrDigit(c) || c == '_'	) 
@@ -450,10 +438,10 @@ namespace FoundryCore
 			string sTemp = sString.ToString();
 			//DebugTrace("Token =",sTemp);
 
-			if ( m_oTokens.ContainsKey(sTemp.ToLower()) )
+			if ( _TokenName.ContainsKey(sTemp.ToLower()) )
 			{
-				TokenID id = (TokenID)m_oTokens[sTemp.ToLower()];
-				TokenClass cls = (TokenClass)m_oTokens[id];
+				TokenID id = (TokenID)_TokenName[sTemp.ToLower()];
+				TokenClass cls = (TokenClass)_TokenClass[id];
 				return new Token( cls, id, sTemp );
 			}
 
@@ -467,7 +455,7 @@ namespace FoundryCore
 		private Token IncludeSpaces() 
 		{
 			StringBuilder sString = new StringBuilder();
-			sString.Append( m_currentchar );
+			sString.Append( _CurrentChar );
 			char c = (char)LA(1);
 			while( c != 39 )
 			{
@@ -479,10 +467,10 @@ namespace FoundryCore
 
 			string sTemp = sString.ToString();
 			
-			if ( m_oTokens.ContainsKey(sTemp.ToLower()) )
+			if ( _TokenName.ContainsKey(sTemp.ToLower()) )
 			{
-				TokenID id = (TokenID)m_oTokens[sTemp.ToLower()];
-				TokenClass cls = (TokenClass)m_oTokens[id];
+				TokenID id = (TokenID)_TokenName[sTemp.ToLower()];
+				TokenClass cls = (TokenClass)_TokenClass[id];
 				return new Token( cls, id, sTemp );
 			}
 
@@ -539,7 +527,7 @@ namespace FoundryCore
 		private Token LiteralText() 
 		{
 			StringBuilder sString = new StringBuilder();
-			sString.Append( m_currentchar );
+			sString.Append( _CurrentChar );
 			char c = (char)LA(1);
 			while( c != 0 && c != 39 && c <= 255  ) 
 			{
@@ -587,8 +575,8 @@ namespace FoundryCore
 		private Token RealNumber() 
 		{
 			StringBuilder sString = new StringBuilder();
-			sString.Append( m_currentchar );
-			bool bInteger = ( m_currentchar == '.' ) ? false : true;
+			sString.Append( _CurrentChar );
+			bool bInteger = ( _CurrentChar == '.' ) ? false : true;
 
 			char c = (char)LA(1);
 			while( char.IsNumber(c) || c == '.' ) 
