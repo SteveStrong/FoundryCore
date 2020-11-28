@@ -18,7 +18,7 @@ namespace FoundryCore
         //https://stackoverflow.com/questions/826398/is-it-possible-to-dynamically-compile-and-execute-c-sharp-code-fragments
         public static void test2()
         {
-         // define source code, then parse it (to the type used for compilation)
+            // define source code, then parse it (to the type used for compilation)
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(@"
                 using System;
 
@@ -29,6 +29,12 @@ namespace FoundryCore
                         public void Write(string message)
                         {
                             Console.WriteLine(message);
+                              for(int i = 0; i < 10; i++)
+                                {    
+                                    var xxx = i * 2 * 5 + 100;
+                                    var str = $""{message} => {xxx}"";
+                                    Console.WriteLine(str);
+                                }
                         }
                     }
                 }");
@@ -84,7 +90,7 @@ namespace FoundryCore
                         BindingFlags.Default | BindingFlags.InvokeMethod,
                         null,
                         obj,
-                        new object[] { "Hello World" });
+                        new object[] { "Hello: World" });
                 }
             }
 
