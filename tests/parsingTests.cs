@@ -44,8 +44,6 @@ namespace FoundryCore
             var references = new List<MetadataReference>
             {
                 MetadataReference.CreateFromFile(typeof(Object).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(Console).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location)
             };
 
             //https://github.com/dotnet/roslyn/issues/49498
