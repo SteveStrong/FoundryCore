@@ -9,11 +9,11 @@ using System.Text.Json.Serialization;
 
 namespace FoundryCore
 {
-    interface  IFoComponent {
+    public interface  IFoComponent {
         public string MyName { get; set; }
-        public T Reference<T>(string name);
+        public T Reference<T>(string name) where T : FoProperty;
     }
-    class FoComponent : FoBase, IFoComponent
+    public class FoComponent : FoBase, IFoComponent
     {
         public FoPropertyManager Properties { get; set; }
         public FoComponentManager Subcomponents { get; set; }
@@ -39,7 +39,7 @@ namespace FoundryCore
         {
             Subcomponents.AddList(comps);
         }
-        
+
         public double SumOver(string name){
             double result = 0;
             var list = Subcomponents.AsList<FoComponent>().Select(x => x.Reference<FoProperty<double>>(name).Value );
@@ -51,9 +51,10 @@ namespace FoundryCore
             return Properties.find(name);
         }
 
-        public T Reference<T>(string name){
+        public T Reference<T>(string name) where T: FoProperty{
             return (T)Properties.find(name);
         }
+
         public override void WriteAsJsonStart(Utf8JsonWriter writer) {
             base.WriteAsJsonStart(writer);
 

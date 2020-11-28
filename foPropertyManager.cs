@@ -61,16 +61,17 @@ namespace FoundryCore
             return this;
         }
 
-        public FoPropertyManager Add(object obj) {
+        public FoPropertyManager Add(dynamic obj) {
             Type type = obj.GetType();
             PropertyInfo pinfo = type.GetProperty("MyName");
             _properties.Add(pinfo.GetValue(obj).ToString(), obj);
             return this;
         }
 
-        public FoPropertyManager AddList(object[] value)
+        public FoPropertyManager AddList(dynamic[] value)
         {
             foreach(var obj in value) {
+                obj.SetParent(this.Parent);
                 this.Add(obj);
             }
             return this;
