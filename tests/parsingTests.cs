@@ -15,6 +15,62 @@ namespace FoundryCore
     //https://github.com/dotnet/roslyn/issues/49498
     class ParsingTests
     {
+         public static void test3()
+         {
+            string code1 = @"public void Write(string message, int count)
+                            {
+                                Console.WriteLine(message);
+                                    for(int i = 0; i < count; i++)
+                                    {    
+                                        var xxx = i * 2 * 5 + 100;
+                                        var str = $""{message} => {xxx}"";
+                                        Console.WriteLine(str);
+                                    }
+                            }";
+
+            string code2 = @"public double Math(double a, double b)
+                            {
+                                var c = a * b;
+                                var str = $""{a} * {b} => {c}"";
+                                Console.WriteLine(str);
+                                return c;
+                            }";
+
+            string code = $"{code1} {code2}";
+
+            string nameSpace = "Apprentice";
+            string className = "Writer";
+         
+            var trans = new Transpiler();
+            var body = trans.WrapInClass(nameSpace, className, code);
+            
+            // Console.WriteLine($"BODY: {body}");
+            var compile = trans.Compile(body);
+
+            Assembly assembly;
+            if ( trans.LoadAssembly(compile, out assembly) ) {
+
+                string target = $"{nameSpace}.{className}";
+                Type type = assembly.GetType(target);
+                var obj = Activator.CreateInstance(type);
+                type.InvokeMember("Write",
+                    BindingFlags.Default | BindingFlags.InvokeMethod,
+                    null,
+                    obj,
+                    new object[] { "Hello: World", 3 });
+
+                var result = type.InvokeMember("Math",
+                        BindingFlags.Default | BindingFlags.InvokeMethod,
+                        null,
+                        obj,
+                        new object[] { 17.0, 3.0 });
+
+                    var str = $" result => {result}";
+                    Console.WriteLine(str);
+
+            }
+
+        }
         //https://stackoverflow.com/questions/826398/is-it-possible-to-dynamically-compile-and-execute-c-sharp-code-fragments
         public static void test2()
         {

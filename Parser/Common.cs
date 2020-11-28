@@ -26,7 +26,7 @@ namespace FoundryCore
 			return false;
 		}
 
-public static string WrapDQIfNeeded(string sString, bool bRemoveInternal)
+		public static string WrapDQIfNeeded(string sString, bool bRemoveInternal)
 		{
 			string sDQ = ((char)'"').ToString();
 			if ( sString.StartsWith(sDQ) && sString.EndsWith(sDQ) )
@@ -61,6 +61,12 @@ public static string WrapDQIfNeeded(string sString, bool bRemoveInternal)
 		{
 			string sDQ = ((char)'"').ToString();
 			return string.Format("{0}{1}{2}",sDQ,sString,sDQ);
+		}
+		public static string WrapCurly(string sString)
+		{
+			string sOpen = ((char)'{').ToString();
+			string sClone = ((char)'}').ToString();
+			return string.Format("{0} {1} {2}",sOpen,sString,sClone);
 		}
 		public static string WrapSQ(string sString)
 		{
