@@ -2,30 +2,30 @@
   "Model": {
     "FoClass_0001": {
       "MyName": "FoClass_0001",
-      "Guid": "d4a50b3d-b012-4bb4-b2f8-d17530e0a8cc",
+      "Guid": "e0b853e5-a865-4ea0-b690-5dd80114a5cb",
       "MyType": "FoComponent",
       "Properties": {
         "proper name": {
           "MyName": "proper name",
-          "Guid": "9c843d20-e96f-41d2-8afe-619f459e2c84",
+          "Guid": "873abd95-cb88-4736-99bc-d63b7a014bab",
           "MyType": "FoProperty::String",
           "Value": "Stephen R. Strong"
         },
-        "cost": {
-          "MyName": "cost",
-          "Guid": "7f4c6217-4f5c-437b-b9a5-8928ae40b5c8",
+        "width": {
+          "MyName": "width",
+          "Guid": "d7f328c5-4b88-41bb-ba52-a893f31f347e",
           "MyType": "FoProperty::Double",
           "Value": "100"
         },
-        "tax": {
-          "MyName": "tax",
-          "Guid": "574c8a2c-038c-46b0-9489-fda3a4a92c11",
+        "height": {
+          "MyName": "height",
+          "Guid": "8f3051ab-c550-4302-9611-c90724d0cc42",
           "MyType": "FoProperty::Double",
           "Value": "0.33"
         },
-        "total": {
-          "MyName": "total",
-          "Guid": "d956dd8f-8345-4016-be72-890cf3db98cb",
+        "area": {
+          "MyName": "area",
+          "Guid": "52b64041-3e14-4b3e-8360-20088747efc8",
           "MyType": "FoProperty::Double",
           "Value": "1000",
           "Formula": "System.Func\u00601[System.Double]"

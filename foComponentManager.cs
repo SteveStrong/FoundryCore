@@ -9,8 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace FoundryCore
 {
-
-    class FoComponentManager : FoBase
+    public class FoComponentManager : FoBase
     {
         //https://www.thecodebuzz.com/system-text-json-create-dictionary-converter-json-serialization/
         private Dictionary<string, object> _components = new Dictionary<string, object>();

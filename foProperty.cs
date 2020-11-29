@@ -11,9 +11,13 @@ namespace FoundryCore
         public string MyName { get; set; }
     }
     
-    public class FoProperty<T> : FoBase, IFoProperty
+    public class FoProperty : FoBase
     {
-        private object _value { get; set; }
+    }
+
+    public class FoProperty<T> : FoProperty, IFoProperty
+    {
+        private dynamic _value { get; set; }
         public T Value
         {
             set {
