@@ -45,6 +45,15 @@ namespace FoundryCore
     }
     class ModelTests
     {
+        public static void test4()
+        {
+            var result = FoComponentBuilder.Start()
+                .SetName("Steve Strong")
+                .Build();
+
+            Console.WriteLine($"{result.AsJson()}");
+        }
+
         public static void test3()
         {
             //http://www.stefanoricciardi.com/2010/04/14/a-fluent-builder-in-c/
@@ -60,6 +69,8 @@ namespace FoundryCore
                 .NewEmployee
                 .SetName("steve")
                 .Build();
+
+            Console.WriteLine(me);
         }
 
         public static void test2()
