@@ -11,7 +11,7 @@ namespace FoundryCore
             //ComponentTests.test1();
             //ComponentTests.test6();
             //ParsingTests.test3();
-            ReferenceTests.test1();
+            ReferenceTests.test2();
         }
     }
 }

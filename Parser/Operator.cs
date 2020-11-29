@@ -19,6 +19,13 @@ namespace FoundryCore
         {
             Children.Add(child);
         }
+        public virtual string Decompile() {
+            return Name;
+        }
+
+        public virtual string AsCSharp() {
+            return Name;
+        }
     }
     public class Constant : Operator
     {
@@ -62,12 +69,38 @@ namespace FoundryCore
         public BinaryOperator(string name) : base(name)
         {
         }
+
+        public override string Decompile() {
+            var LHS = this.Children[0];
+            var RHS = this.Children[1];
+            var result = $"{LHS.Decompile()} {Name} {RHS.Decompile()}";
+            return result;
+        }
+
+        public override string AsCSharp() {
+            var LHS = this.Children[0];
+            var RHS = this.Children[1];
+            var result = $"{LHS.AsCSharp()} {Name} {RHS.AsCSharp()}";
+            return result;
+        }
     }
 
     public class GroupOperator : Operator
     {
         public GroupOperator(string name) : base(name)
         {
+        }
+        public override string Decompile() {
+            var LHS = this.Children[0];
+            var result = $"( {LHS.Decompile()} )";
+            return result;
+        }
+
+        
+        public override string AsCSharp() {
+            var LHS = this.Children[0];
+            var result = $"( {LHS.AsCSharp()} )";
+            return result;
         }
     }
 

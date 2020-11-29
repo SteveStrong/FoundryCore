@@ -15,6 +15,8 @@ namespace FoundryCore
     //https://github.com/dotnet/roslyn/issues/49498
     class ParsingTests
     {
+       
+
          public static void test3()
          {
             string code1 = @"public void Write(string message, int count)
@@ -71,7 +73,7 @@ namespace FoundryCore
             }
 
         }
-        
+
         //https://stackoverflow.com/questions/826398/is-it-possible-to-dynamically-compile-and-execute-c-sharp-code-fragments
         public static void test2()
         {
