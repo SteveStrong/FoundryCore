@@ -8,24 +8,25 @@ using System.Reflection;
 
 namespace FoundryCore
 {
-    public class ComputeX { 
-        public bool getvalue(FoComponent root) { 
-            var depthProp = new FoReference("depth"); 
-            var depth = depthProp.GetValue<double>(root);
-            var widthProp = new FoReference("width"); 
-            var width = widthProp.GetValue<double>(root);
-            var heightProp = new FoReference("height"); 
-            var height = heightProp.GetValue<double>(root);
-            var volumeProp = new FoReference("volume"); 
-            var volume = volumeProp.GetValue<double>(root);
-            var areaProp = new FoReference("area"); 
-            var area = areaProp.GetValue<double>(root);
+    // public class ComputeX { 
+    //     public bool getvalue(FoComponent root) { 
+    //         var depthProp = new FoReference("depth"); 
+    //         var depth = depthProp.GetValue<double>(root);
+    //         var widthProp = new FoReference("width"); 
+    //         var width = widthProp.GetValue<double>(root);
+    //         var heightProp = new FoReference("height"); 
+    //         var height = heightProp.GetValue<double>(root);
+    //         var volumeProp = new FoReference("volume"); 
+    //         var volume = volumeProp.GetValue<double>(root);
+    //         var areaProp = new FoReference("area"); 
+    //         var area = areaProp.GetValue<double>(root);
 
-            var result = depth * ( width * height ) == volume && width * height == area;
+    //         var result = depth * ( width * height ) == volume && width * height == area;
 
-            return result; 
-        } 
-    } 
+    //         return result; 
+    //     } 
+    // } 
+
     class ReferenceTests
     {
          public static void test2()
@@ -33,7 +34,7 @@ namespace FoundryCore
             var root = new FoComponent("Component");
 
             IFoProperty[] props = {
-                new FoProperty<double>("width", 100),
+                new FoProperty<double>("width", 10),
                 new FoProperty<double>("height", .33),
                 new FoProperty<double>("depth", 22),
                 new FoProperty<double>("area", () => {
@@ -106,7 +107,11 @@ namespace FoundryCore
                     new object[] { root });
 
                 Console.WriteLine($"It Works if the answer is true");
-                 Console.WriteLine($"{methodName} => {thanks}");
+                Console.WriteLine($"{methodName} => {thanks}");
+                var volume = root.Reference<FoProperty<double>>("volume").Value;
+                Console.WriteLine($"Volume => {volume}");
+                var area = root.Reference<FoProperty<double>>("area").Value;
+                Console.WriteLine($"Area => {area}");
             }
 
             Console.WriteLine($"..........................");
