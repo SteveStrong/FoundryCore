@@ -21,6 +21,11 @@ namespace FoundryCore
 
         public ModelComponent(string name): base(name)
         {
+            init();
+        }
+
+        private void init() {
+
             this.Properties.AddList( new[] {width, height, depth, area, volume} );
 
             area.Formula = () =>
@@ -40,15 +45,14 @@ namespace FoundryCore
     }
     class ModelTests
     {
-         public static void test1()
+        public static void test2()
         {
-            var root = new ModelComponent("Component");
 
             Console.WriteLine($"===========================");
 
             var methodName = "ComputeValue";
             Type type = typeof(ModelComponent);
-            var obj = Activator.CreateInstance(type,new object[] { "steve"});
+            var obj = Activator.CreateInstance(type,new object[] { "steve"}) as ModelComponent;
 
             var thanks = type.InvokeMember(methodName,
             BindingFlags.Default | BindingFlags.InvokeMethod,
@@ -58,6 +62,29 @@ namespace FoundryCore
 
             Console.WriteLine($"It Works if the answer is true");
             Console.WriteLine($"{methodName} => {thanks}");
+            
+            //var volume = root.volume.Value;
+            Console.WriteLine($"{obj.volume}");
+            //Console.WriteLine($"{root.volume.AsJson()}");
+
+            //var area = root.area.Value;
+            Console.WriteLine($"{obj.area}");
+
+            obj.width.Value = 0;
+            Console.WriteLine($"{obj.area}");
+
+
+            Console.WriteLine($"..........................");
+         } 
+        public static void test1()
+        {
+            var root = new ModelComponent("Component");
+
+            Console.WriteLine($"===========================");
+
+
+            Console.WriteLine($"It Works if the answer is true");
+            Console.WriteLine($"ComputeValue => {root.ComputeValue()}");
             
             //var volume = root.volume.Value;
             Console.WriteLine($"{root.volume}");
