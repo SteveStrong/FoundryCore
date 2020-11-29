@@ -60,7 +60,7 @@ namespace FoundryCore
 
         public override string AsString()
         {
-            return Value.ToString();
+            return $"{MyName}: {Value}";
         }
 
         public override void WriteAsJsonStart(Utf8JsonWriter writer)

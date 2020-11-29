@@ -40,6 +40,8 @@ namespace FoundryCore
             Subcomponents.AddList(comps);
         }
 
+        public FoComponent Self { get { return this; } }
+
         public double SumOver(string name){
             double result = 0;
             var list = Subcomponents.AsList<FoComponent>().Select(x => x.Reference<FoProperty<double>>(name).Value );
