@@ -45,6 +45,23 @@ namespace FoundryCore
     }
     class ModelTests
     {
+        public static void test3()
+        {
+            //http://www.stefanoricciardi.com/2010/04/14/a-fluent-builder-in-c/
+            var emp = EmployeeBuilderDirector.NewEmployee
+                .SetName("Steve Strong")
+                .AtPosition("Software Developer")
+                .WithSalary(3500)
+                .Build();
+
+            Console.WriteLine(emp);
+
+            var me = EmployeeBuilderDirector
+                .NewEmployee
+                .SetName("steve")
+                .Build();
+        }
+
         public static void test2()
         {
 
