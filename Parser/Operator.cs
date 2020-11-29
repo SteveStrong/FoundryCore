@@ -26,6 +26,11 @@ namespace FoundryCore
         public virtual string AsCSharp() {
             return Name;
         }
+        public virtual List<Operator> CollectionAll(List<Operator> items){
+            Children.ForEach(item => item.CollectionAll(items));
+            items.Add(this);
+            return items;
+        }
     }
     public class Constant : Operator
     {
@@ -109,6 +114,24 @@ namespace FoundryCore
         public LogicalBinaryOperator(string name) : base(name)
         {
         }
+        public override string Decompile() {
+            var LHS = this.Children[0];
+            var RHS = this.Children[1];
+            var result = $"{LHS.Decompile()} {Name} {RHS.Decompile()}";
+            return result;
+        }
+
+        public override string AsCSharp() {
+            var LHS = this.Children[0];
+            var RHS = this.Children[1];
+
+            var op = Name;
+            op = Name.Matches("and") ? "&&" : op;
+            op = Name.Matches("or") ? "||" : op;
+
+            var result = $"{LHS.AsCSharp()} {op} {RHS.AsCSharp()}";
+            return result;
+        }
     }
 
     public class BranchOperator : Operator
@@ -129,6 +152,22 @@ namespace FoundryCore
     {
         public ReferenceOperator(string name) : base(name)
         {
+        }
+        
+        public override string Decompile() {
+            var result = $"{Name}";
+            return result;
+        }
+
+        public override string AsCSharp() {
+            var result = $"{Name}";
+            return result;
+        }
+        public virtual string ToReferenceStatement() {
+            var label = Common.WrapDQ(this.Name);
+            var result = $"var {this.Name}Prop = new FoReference({label}); ";
+            result += $"var {this.Name} = {this.Name}Prop.GetValue<double>(root); ";
+            return result;
         }
     }   
     public class FieldReference : ReferenceOperator

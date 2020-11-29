@@ -5,7 +5,7 @@ namespace FoundryCore
 {
     public static class Extensions
     {
-        public static String Blank(this String me)
+        public static String Empty(this String me)
         {
             return String.Empty;
         }
@@ -23,6 +23,11 @@ namespace FoundryCore
               ;
         }
 
+        public static bool Matches(this string str1, string str2)
+		{
+            var result = str1.ToLower() == str2.ToLower();
+            return result;
+        }
 
         public static string CreateInternalName(this string sName)
 		{

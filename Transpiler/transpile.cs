@@ -19,7 +19,17 @@ namespace FoundryCore
 
             string classCode = $"public class {className} {Common.WrapCurly(code)}";
             string assemblyCode = $"namespace {nameSpace} {Common.WrapCurly(classCode)}";
-            string body = $"using System;  {assemblyCode}";
+            string body = $"using System; using FoundryCore; {assemblyCode}";
+            var syntaxTree = CSharpSyntaxTree.ParseText(body);
+            return syntaxTree;
+        }
+
+        public SyntaxTree WrapInClassMethod(string nameSpace, string className, string type, string method, string args, string code){
+
+            string methodCode = $"public {type} {method} {args} {Common.WrapCurly(code)}";
+            string classCode = $"public class {className} {Common.WrapCurly(methodCode)}";
+            string assemblyCode = $"namespace {nameSpace} {Common.WrapCurly(classCode)}";
+            string body = $"using System; using FoundryCore; {assemblyCode}";
             var syntaxTree = CSharpSyntaxTree.ParseText(body);
             return syntaxTree;
         }
@@ -30,6 +40,7 @@ namespace FoundryCore
             var references = new List<MetadataReference>
             {
                 MetadataReference.CreateFromFile(typeof(Object).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(FoBase).Assembly.Location),
             };
 
             //https://github.com/dotnet/roslyn/issues/49498

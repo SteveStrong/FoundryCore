@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
 
 namespace FoundryCore
 {
@@ -18,6 +19,7 @@ namespace FoundryCore
             JsonSerializerOptions options = new()
             {
                 //ReferenceHandler = ReferenceHandler.Preserve,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                 IgnoreNullValues = true,
                 IgnoreReadOnlyProperties = false,
                 IncludeFields = true,
@@ -44,7 +46,7 @@ namespace FoundryCore
                 writer.WriteEndObject();
             }
 
-            string json = Encoding.UTF8.GetString(stream.ToArray());
+            string json = Encoding.ASCII.GetString(stream.ToArray());
             return json;
         }
 
