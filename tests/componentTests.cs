@@ -53,7 +53,7 @@ namespace FoundryCore
                 new FoComponent("Comp1",props2 ),
             };
 
-            root.Subcomponents.AddList(comps);
+            root.Subcomponents.AddArray(comps);
             var comp = comps[0] as FoComponent;
 
             Console.WriteLine($"===========================");

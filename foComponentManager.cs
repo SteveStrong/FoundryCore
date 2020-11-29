@@ -60,23 +60,23 @@ namespace FoundryCore
         public object find(string key) {
             return _components[key];
         }
-        public FoComponentManager Add(string key, object obj) {
+        public FoComponentManager Add(string key, dynamic obj) {
              ((FoBase)obj).SetParent(this.Parent);
             _components.Add(key, obj);
             return this;
         }
 
-        public FoComponentManager Add(object obj) {
+        public FoComponentManager Add(dynamic obj) {
             Type type = obj.GetType();
-            PropertyInfo pinfo = type.GetProperty("MyName");
+            PropertyInfo pinfo = type.GetProperty(nameof(MyName));
             _components.Add(pinfo.GetValue(obj).ToString(), obj);
             return this;
         }
 
-        public FoComponentManager AddList(object[] value)
+        public FoComponentManager AddArray(dynamic[] value)
         {
             foreach(var obj in value) {
-               
+                obj.SetParent(this.Parent);
                 this.Add(obj);
             }
             return this;

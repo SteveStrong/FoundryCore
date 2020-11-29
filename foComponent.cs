@@ -37,7 +37,7 @@ namespace FoundryCore
 
         public FoComponent(string name, IFoComponent[] comps): this(name)
         {
-            Subcomponents.AddList(comps);
+            Subcomponents.AddArray(comps);
         }
 
         public FoComponent Self { get { return this; } }

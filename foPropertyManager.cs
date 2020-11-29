@@ -63,7 +63,7 @@ namespace FoundryCore
 
         public FoPropertyManager Add(dynamic obj) {
             Type type = obj.GetType();
-            PropertyInfo pinfo = type.GetProperty("MyName");
+            PropertyInfo pinfo = type.GetProperty(nameof(MyName));
             _properties.Add(pinfo.GetValue(obj).ToString(), obj);
             return this;
         }
