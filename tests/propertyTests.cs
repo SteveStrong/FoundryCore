@@ -36,7 +36,7 @@ namespace FoundryCore
             // Console.WriteLine($" to string {prop5}");
 
             IFoProperty[] props = { prop1, prop2a, prop2b, prop2c };
-            comp1.Properties.AddList(props);
+            comp1.Properties.AddArray(props);
 
             Console.WriteLine($" comp {comp1}");
 

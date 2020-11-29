@@ -21,7 +21,7 @@ namespace FoundryCore
                 new FoProperty<double>("tax", .33),
                 new FoProperty<double>("total", () => { return 1000; })
             };
-            root.Properties.AddList(props);
+            root.Properties.AddArray(props);
 
 
             //var root = new FoComponent("Comp1", props);
@@ -47,7 +47,7 @@ namespace FoundryCore
             };
 
 
-            root.Properties.AddList(props1);
+            root.Properties.AddArray(props1);
 
             IFoComponent[] comps = {
                 new FoComponent("Comp1",props2 ),
@@ -156,7 +156,7 @@ namespace FoundryCore
 
 
             var comp1 = new FoComponent("Comp1");
-            comp1.Properties.AddList(props);
+            comp1.Properties.AddArray(props);
             var cost = comp1.Reference<FoProperty<double>>("cost");
             var tax = comp1.Reference<FoProperty<double>>("tax");
             var total = comp1.Reference<FoProperty<double>>("total");

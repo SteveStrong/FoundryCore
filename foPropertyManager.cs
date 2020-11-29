@@ -68,7 +68,7 @@ namespace FoundryCore
             return this;
         }
 
-        public FoPropertyManager AddList(dynamic[] value)
+        public FoPropertyManager AddArray(dynamic[] value)
         {
             foreach(var obj in value) {
                 obj.SetParent(this.Parent);

@@ -32,7 +32,7 @@ namespace FoundryCore
         }
         public FoComponent(string name, IFoProperty[] props): this(name)
         {
-            Properties.AddList(props);
+            Properties.AddArray(props);
         }
 
         public FoComponent(string name, IFoComponent[] comps): this(name)

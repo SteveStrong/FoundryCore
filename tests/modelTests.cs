@@ -26,7 +26,7 @@ namespace FoundryCore
 
         private void init() {
 
-            this.Properties.AddList( new[] {width, height, depth, area, volume} );
+            this.Properties.AddArray( new[] {width, height, depth, area, volume} );
 
             area.Formula = () =>
             {
@@ -48,7 +48,10 @@ namespace FoundryCore
         public static void test4()
         {
             var result = FoComponentBuilder.Start()
-                .SetName("Steve Strong")
+                .SetName("Box")
+                .AddProperty<double>("width")
+                .AddProperty<double>("height")
+                .AddProperty<double>("depth")
                 .Build();
 
             Console.WriteLine($"{result.AsJson()}");

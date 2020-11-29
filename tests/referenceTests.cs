@@ -53,7 +53,7 @@ namespace FoundryCore
                 })
             };
 
-            root.Properties.AddList(props);
+            root.Properties.AddArray(props);
 
             var parser = new Parser("depth * (width * height) == volume and width * height == area");
 
@@ -133,7 +133,7 @@ namespace FoundryCore
                     return area;
                 })
             };
-            root.Properties.AddList(props);
+            root.Properties.AddArray(props);
 
 
             //var root = new FoComponent("Comp1", props);
