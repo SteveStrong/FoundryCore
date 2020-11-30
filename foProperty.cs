@@ -75,10 +75,10 @@ namespace FoundryCore
         {
             base.WriteAsJsonStart(writer);
             if ( this.HasValue ) {
-                writer.WriteString("Value",Value.ToString() );
+                writer.WriteString(nameof(Value),Value.ToString() );
             }
             if ( this.HasFormula ) {
-                writer.WriteString("Formula",this._formula.ToString());
+                writer.WriteString(nameof(Formula),this._formula.ToString());
             }
         }
         public override void WriteAsJsonEnd(Utf8JsonWriter writer)

@@ -72,9 +72,9 @@ namespace FoundryCore
 
         public virtual void WriteAsJsonStart(Utf8JsonWriter writer) {
             writer.WriteStartObject(this.MyName);
-            writer.WriteString("MyName",this.MyName);
-            writer.WriteString("Guid", UniqueID.ToString());
-            writer.WriteString("MyType", MyType.ToString());
+            writer.WriteString(nameof(MyName),this.MyName);
+            writer.WriteString(nameof(Guid), UniqueID.ToString());
+            writer.WriteString(nameof(MyType), MyType.ToString());
             // if ( this.HasParent()){
             //     writer.WriteBoolean("HasParent", this.HasParent());
             //     writer.WriteString("ParentGUID", this.Parent.UniqueID);
@@ -84,9 +84,9 @@ namespace FoundryCore
             writer.WriteEndObject();
         }
         public virtual void ReadFromJSON(JsonElement body) {
-            var name = body.GetProperty("MyName").ToString();
-            var guid = body.GetProperty("Guid").ToString();
-            var type = body.GetProperty("MyType").ToString();
+            var name = body.GetProperty(nameof(MyName)).ToString();
+            var guid = body.GetProperty(nameof(Guid)).ToString();
+            var type = body.GetProperty(nameof(MyType)).ToString();
         }
     }
     
