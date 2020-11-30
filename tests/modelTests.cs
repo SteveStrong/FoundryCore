@@ -47,16 +47,24 @@ namespace FoundryCore
     {
         public static void test4()
         {
-            var result = FoComponentBuilder.Start()
+            var build = FoComponentBuilder.Start()
                 .SetName("Box")
                 .AddProperty<string>("label")
                 .AddProperty<int>("tag", 100)
                 .AddProperty<double>("width")
                 .AddProperty<double>("depth")
-                .AddProperty<double>("height")
+                .AddProperty<double>("height");
+
+            var result1 = build.Build();
+            Console.WriteLine($"{result1.AsJson()}");
+
+
+            var result2 = build
+                .SetName("Steve")
+                .AddProperty<int>("tag2", 1234)
                 .Build();
 
-            Console.WriteLine($"{result.AsJson()}");
+            Console.WriteLine($"{result2.AsJson()}");
         }
 
         public static void test3()
