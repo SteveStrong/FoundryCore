@@ -49,9 +49,11 @@ namespace FoundryCore
         {
             var result = FoComponentBuilder.Start()
                 .SetName("Box")
+                .AddProperty<string>("label")
+                .AddProperty<int>("tag", 100)
                 .AddProperty<double>("width")
-                .AddProperty<double>("height")
                 .AddProperty<double>("depth")
+                .AddProperty<double>("height")
                 .Build();
 
             Console.WriteLine($"{result.AsJson()}");

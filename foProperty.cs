@@ -45,6 +45,13 @@ namespace FoundryCore
                 return _formula != null;
             }
         }
+
+        public Boolean HasValue
+        {
+            get {
+                return _value != null;
+            }
+        }
     
         public FoProperty(string name, object value = default)
         {
@@ -60,13 +67,16 @@ namespace FoundryCore
 
         public override string AsString()
         {
-            return $"{MyName}: {Value}";
+            var value = Value != null ? Value.ToString() : "";
+            return $"{MyName}: {value}";
         }
 
         public override void WriteAsJsonStart(Utf8JsonWriter writer)
         {
             base.WriteAsJsonStart(writer);
-            writer.WriteString("Value",Value.ToString());
+            if ( this.HasValue ) {
+                writer.WriteString("Value",Value.ToString() );
+            }
             if ( this.HasFormula ) {
                 writer.WriteString("Formula",this._formula.ToString());
             }
