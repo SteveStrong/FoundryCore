@@ -75,10 +75,10 @@ namespace FoundryCore
             writer.WriteString("MyName",this.MyName);
             writer.WriteString("Guid", UniqueID.ToString());
             writer.WriteString("MyType", MyType.ToString());
-            if ( this.HasParent()){
-                writer.WriteBoolean("HasParent", this.HasParent());
-                writer.WriteString("ParentGUID", this.Parent.UniqueID);
-            }
+            // if ( this.HasParent()){
+            //     writer.WriteBoolean("HasParent", this.HasParent());
+            //     writer.WriteString("ParentGUID", this.Parent.UniqueID);
+            // }
         }
         public virtual void WriteAsJsonEnd(Utf8JsonWriter writer) {;
             writer.WriteEndObject();
