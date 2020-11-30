@@ -21,6 +21,7 @@ namespace FoundryCore
             string assemblyCode = $"namespace {nameSpace} {Common.WrapCurly(classCode)}";
             string body = $"using System; using FoundryCore; {assemblyCode}";
             var syntaxTree = CSharpSyntaxTree.ParseText(body);
+            
             return syntaxTree;
         }
 
@@ -60,9 +61,9 @@ namespace FoundryCore
 
         public Boolean LoadAssembly(CSharpCompilation compilation, out Assembly assembly)
         {
+            assembly = null;
             using (var stream = new MemoryStream())
             {
-                assembly = null;
                 // write IL code into memory
                 EmitResult result = compilation.Emit(stream);
 
