@@ -6,7 +6,7 @@ namespace FoundryCore
     public interface  IFoPropertyBuilder {
         public IFoPropertyBuilder SetName(string name);
         public IFoPropertyBuilder SetValue(object value);
-        public FoComponent Build();
+        public FoProperty<T> Build<T>();
      }
     public class FoPropertyBuilder : IFoPropertyBuilder
     {
@@ -27,7 +27,7 @@ namespace FoundryCore
             return (IFoPropertyBuilder)this;
         }
         public FoProperty<T> Build<T>(){
-            var result = new FoProperty<T>(this._name);
+            var result = new FoProperty<T>(this._name, this._value);
             return result;
         }
         
