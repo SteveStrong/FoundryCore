@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FoundryCore
 {
-    class PropertyTests
+    public static class PropertyTests
     {
         public static void test1()
         {

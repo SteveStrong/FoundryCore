@@ -43,7 +43,7 @@ namespace FoundryCore
             return depth.Value * (width.Value * height.Value) == volume.Value && width.Value * height.Value == area.Value;
         }
     }
-    class ModelTests
+    public static class ModelTests
     {
         public static void test4()
         {

@@ -27,7 +27,7 @@ namespace FoundryCore
     //     } 
     // } 
 
-    class ReferenceTests
+    public static class ReferenceTests
     {
          public static void test2()
         {

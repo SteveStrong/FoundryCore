@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FoundryCore
 {
-    class ComponentTests
+    public static class ComponentTests
     {
         public static void test7()
         {

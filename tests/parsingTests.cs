@@ -13,7 +13,7 @@ using Microsoft.CodeAnalysis.Emit;
 namespace FoundryCore
 {
     //https://github.com/dotnet/roslyn/issues/49498
-    class ParsingTests
+    public static class ParsingTests
     {
        
 

@@ -4,6 +4,7 @@ using FoundryCore;
 namespace Apprentice { 
     public class Computexx { 
         public bool getvalue(FoComponent root) { 
+           
             var depthProp = new FoReference("depth"); 
             var depth = depthProp.GetValue<double>(root);
             var widthProp = new FoReference("width"); 
