@@ -10,6 +10,11 @@ namespace FoundryCore
             return String.Empty;
         }
 
+        public static bool IsEmpty(this object me)
+        {
+            return me == null ? true : false;
+        }
+
         public static T GetValue<T>(this String value)
         {
             return (T)Convert.ChangeType(value, typeof(T));

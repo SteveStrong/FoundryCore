@@ -41,7 +41,7 @@ namespace FoundryCore
             {
                 writer.WriteStartObject();
                 //writer.WriteStartObject(name == String.Empty ? "Model": name);
-                source.WriteAsJson(writer);
+                source.WriteAsJson(writer,WritingDetails.SIMPLE);
                 //writer.WriteEndObject();
                 writer.WriteEndObject();
             }

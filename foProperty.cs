@@ -71,9 +71,9 @@ namespace FoundryCore
             return $"{MyName}: {value}";
         }
 
-        public override void WriteAsJsonStart(Utf8JsonWriter writer)
+        public override void WriteAsJsonStart(Utf8JsonWriter writer, WritingDetails spec)
         {
-            base.WriteAsJsonStart(writer);
+            base.WriteAsJsonStart(writer,spec);
             if ( this.HasValue ) {
                 writer.WriteString(nameof(Value),Value.ToString() );
             }
@@ -81,9 +81,9 @@ namespace FoundryCore
                 writer.WriteString(nameof(Formula),this._formula.ToString());
             }
         }
-        public override void WriteAsJsonEnd(Utf8JsonWriter writer)
+        public override void WriteAsJsonEnd(Utf8JsonWriter writer, WritingDetails spec)
         {
-            base.WriteAsJsonEnd(writer);
+            base.WriteAsJsonEnd(writer,spec);
         } 
     }
 

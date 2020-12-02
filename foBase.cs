@@ -16,6 +16,12 @@ namespace FoundryCore
             return true;
         }
     }
+    public enum WritingDetails 
+	{
+		CLONE,
+        SIMPLE,
+    }
+
     public class FoBase
     { 
 		private System.Guid _GUID = System.Guid.Empty;
@@ -64,13 +70,13 @@ namespace FoundryCore
         {
             return AsString();
         }
-        public virtual void WriteAsJson(Utf8JsonWriter writer)
+        public virtual void WriteAsJson(Utf8JsonWriter writer, WritingDetails spec)
         {
-            WriteAsJsonStart(writer);
-            WriteAsJsonEnd(writer);
+            WriteAsJsonStart(writer,spec);
+            WriteAsJsonEnd(writer,spec);
         }
 
-        public virtual void WriteAsJsonStart(Utf8JsonWriter writer) {
+        public virtual void WriteAsJsonStart(Utf8JsonWriter writer, WritingDetails spec) {
             writer.WriteStartObject(this.MyName);
             writer.WriteString(nameof(MyName),this.MyName);
             writer.WriteString(nameof(Guid), UniqueID.ToString());
@@ -80,7 +86,7 @@ namespace FoundryCore
             //     writer.WriteString("ParentGUID", this.Parent.UniqueID);
             // }
         }
-        public virtual void WriteAsJsonEnd(Utf8JsonWriter writer) {;
+        public virtual void WriteAsJsonEnd(Utf8JsonWriter writer, WritingDetails spec) {
             writer.WriteEndObject();
         }
         public virtual void ReadFromJSON(JsonElement body) {

@@ -57,19 +57,19 @@ namespace FoundryCore
             return (T)Properties.find(name);
         }
 
-        public override void WriteAsJsonStart(Utf8JsonWriter writer) {
-            base.WriteAsJsonStart(writer);
+        public override void WriteAsJsonStart(Utf8JsonWriter writer, WritingDetails spec) {
+            base.WriteAsJsonStart(writer,spec);
 
             //properties first
-            Properties?.WriteAsJson(writer);
+            Properties?.WriteAsJson(writer,spec);
             //components first
-            Subcomponents?.WriteAsJson(writer);
+            Subcomponents?.WriteAsJson(writer,spec);
          }
-        public override void WriteAsJsonEnd(Utf8JsonWriter writer) {
-            base.WriteAsJsonEnd(writer);
+        public override void WriteAsJsonEnd(Utf8JsonWriter writer, WritingDetails spec) {
+            base.WriteAsJsonEnd(writer,spec);
         }
         public  void WnnnriteAsJSON(Utf8JsonWriter writer) {
-            //base.WriteAsJSON(writer);
+            //base.WriteAsJSON(writer,spec);
             writer.WriteStartObject("ccc");
 
                 writer.WriteNumber("age", 15);

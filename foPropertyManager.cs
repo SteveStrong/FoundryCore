@@ -26,22 +26,22 @@ namespace FoundryCore
             Parent = parent;
         }
 
-        public override void WriteAsJson(Utf8JsonWriter writer)
+        public override void WriteAsJson(Utf8JsonWriter writer, WritingDetails spec)
         {
             if (this._properties?.Count == 0) return;
-            base.WriteAsJson(writer);
+            base.WriteAsJson(writer,spec);
         }
-        public override void WriteAsJsonStart(Utf8JsonWriter writer)
+        public override void WriteAsJsonStart(Utf8JsonWriter writer, WritingDetails spec)
         {
             if ( this._properties?.Count == 0 ) return;
             
             writer.WriteStartObject("Properties");
             _properties.Values.ToList().ForEach( item => {
-                ((FoBase)item).WriteAsJson(writer);
+                ((FoBase)item).WriteAsJson(writer,spec);
             });
 
         }
-        public override void WriteAsJsonEnd(Utf8JsonWriter writer)
+        public override void WriteAsJsonEnd(Utf8JsonWriter writer, WritingDetails spec)
         {
             writer.WriteEndObject();
         }      
