@@ -16,10 +16,14 @@ namespace FoundryCore
 
             Console.WriteLine($"===========================");
 
+            var prop = FoPropertyBuilder.Start()
+                .SetName("volume");
             var build = FoTemplateBuilder.Start()
+                .AddProperty(prop.Build<double>())
                 .SetName("Box");
 
 
+            build.Apply(root);
             Console.WriteLine($"{root.AsJson(WritingDetails.DETAILS)}");
 
 

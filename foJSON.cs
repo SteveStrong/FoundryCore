@@ -40,9 +40,9 @@ namespace FoundryCore
             using (var writer = new Utf8JsonWriter(stream,options))
             {
                 writer.WriteStartObject();
-                //writer.WriteStartObject(name == String.Empty ? "Model": name);
+                ////writer.WriteStartObject(name == String.Empty ? "Model": name);
                 source.WriteAsJson(writer,details);
-                //writer.WriteEndObject();
+                ////writer.WriteEndObject();
                 writer.WriteEndObject();
             }
 
