@@ -12,9 +12,12 @@ namespace FoundryCore
     {
         public static void test1()
         {
-            var root = new ModelComponent("Component");
+            var root = new FoComponent("Component");
 
             Console.WriteLine($"===========================");
+
+            var build = FoTemplateBuilder.Start()
+                .SetName("Box");
 
 
             Console.WriteLine($"{root.AsJson(WritingDetails.DETAILS)}");
