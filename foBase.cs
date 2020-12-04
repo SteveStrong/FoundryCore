@@ -20,6 +20,7 @@ namespace FoundryCore
 	{
 		CLONE,
         SIMPLE,
+        DETAILS,
     }
 
     public class FoBase
@@ -79,8 +80,10 @@ namespace FoundryCore
         public virtual void WriteAsJsonStart(Utf8JsonWriter writer, WritingDetails spec) {
             writer.WriteStartObject(this.MyName);
             writer.WriteString(nameof(MyName),this.MyName);
-            writer.WriteString(nameof(Guid), UniqueID.ToString());
-            writer.WriteString(nameof(MyType), MyType.ToString());
+            if ( spec == WritingDetails.DETAILS ) {
+                writer.WriteString(nameof(Guid), UniqueID.ToString());
+                writer.WriteString(nameof(MyType), MyType.ToString());
+            }
             // if ( this.HasParent()){
             //     writer.WriteBoolean("HasParent", this.HasParent());
             //     writer.WriteString("ParentGUID", this.Parent.UniqueID);

@@ -31,7 +31,7 @@ namespace FoundryCore
         }
 
 
-        public static string AsJson(this FoBase source, string name = "") {
+        public static string AsJson(this FoBase source, WritingDetails details = WritingDetails.SIMPLE, string name = "") {
             var options = new JsonWriterOptions {
                 Indented = true
             };
@@ -41,7 +41,7 @@ namespace FoundryCore
             {
                 writer.WriteStartObject();
                 //writer.WriteStartObject(name == String.Empty ? "Model": name);
-                source.WriteAsJson(writer,WritingDetails.SIMPLE);
+                source.WriteAsJson(writer,details);
                 //writer.WriteEndObject();
                 writer.WriteEndObject();
             }
